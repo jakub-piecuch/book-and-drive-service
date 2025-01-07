@@ -8,7 +8,7 @@
         <version>3.4.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>org.bookanddrive</groupId>
+    <groupId>org.redcode</groupId>
     <artifactId>book-and-drive-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>book-and-drive-service</name>
@@ -69,6 +69,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <scope>provided</scope>
             <optional>true</optional>
         </dependency>
         <dependency>
