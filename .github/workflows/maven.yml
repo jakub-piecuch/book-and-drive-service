@@ -2,10 +2,11 @@ name: Maven Build
 
 # This workflow will be triggered for pull requests and pushes to specific branches
 on:
-  pull_request:
-    branches:
-      - main           # Trigger on pull requests targeting the main branch
-      - 'feat/PLAT*'   # Trigger on pull requests targeting branches that start with "feat/PLAT"
+#  pull_request:
+#    branches:
+#      - main           # Trigger on pull requests targeting the main branch
+#      - 'feat/PLAT*'   # Trigger on pull requests targeting branches that start with "feat/PLAT"
+
   push:
     branches:
       - main           # Trigger on direct pushes to the main branch
