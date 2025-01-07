@@ -1,0 +1,38 @@
+name: Maven Build
+
+# This workflow will be triggered for pull requests and pushes to specific branches
+on:
+  pull_request:
+    branches:
+      - main           # Trigger on pull requests targeting the main branch
+      - 'feat/PLAT*'   # Trigger on pull requests targeting branches that start with "feat/PLAT"
+  push:
+    branches:
+      - main           # Trigger on direct pushes to the main branch
+      - 'feat/PLAT*'   # Trigger on pushes to branches that start with "feat/PLAT"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # You can also use other OS runners, like macos-latest or windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2  # Checks out your repository so that Maven can build it
+
+      - name: Set up Java 23
+        uses: actions/setup-java@v2
+        with:
+          java-version: '23'  # Set the Java version to 23
+          distribution: 'temurin'  # You can also use 'temurin' (AdoptOpenJDK's successor)
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository  # Path to the local Maven cache
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}  # Cache key based on the pom.xml
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Run Maven build
+        run: mvn clean install  # Build the project (skip tests if you want to, otherwise remove '-DskipTests')
+
