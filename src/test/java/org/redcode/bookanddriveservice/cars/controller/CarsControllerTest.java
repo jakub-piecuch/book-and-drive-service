@@ -19,9 +19,6 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.redcode.bookanddriveservice.cars.dto.Car;
-import org.redcode.bookanddriveservice.cars.dto.CarResponse;
-import org.redcode.bookanddriveservice.cars.dto.CreateCarRequest;
-import org.redcode.bookanddriveservice.cars.dto.UpdateCarRequest;
 import org.redcode.bookanddriveservice.cars.mappers.CarsMapper;
 import org.redcode.bookanddriveservice.cars.service.CarsService;
 import org.springframework.http.MediaType;
@@ -49,9 +46,7 @@ class CarsControllerTest {
 
     @Test
     void testCreateCar() throws Exception {
-        CreateCarRequest request = new CreateCarRequest("Toyota", "Camry", "ABC123");
         Car car = new Car(UUID.randomUUID(), "Toyota", "Camry", "ABC123");
-        CarResponse response = new CarResponse(car.getId(), car.getMake(), car.getModel(), car.getRegistrationNumber());
 
         when(carsService.create(any(Car.class))).thenReturn(car);
 
@@ -67,7 +62,6 @@ class CarsControllerTest {
     @Test
     void testGetCars() throws Exception {
         Car car = new Car(UUID.randomUUID(), "Toyota", "Camry", "ABC123");
-        CarResponse response = new CarResponse(car.getId(), car.getMake(), car.getModel(), car.getRegistrationNumber());
 
         when(carsService.getCars()).thenReturn(List.of(car));
 
@@ -82,7 +76,6 @@ class CarsControllerTest {
     void testGetCarById() throws Exception {
         UUID id = UUID.randomUUID();
         Car car = new Car(id, "Toyota", "Camry", "ABC123");
-        CarResponse response = new CarResponse(car.getId(), car.getMake(), car.getModel(), car.getRegistrationNumber());
 
         when(carsService.findById(id)).thenReturn(car);
 
@@ -106,9 +99,7 @@ class CarsControllerTest {
     @Test
     void testUpdateCarById() throws Exception {
         UUID id = UUID.randomUUID();
-        UpdateCarRequest request = new UpdateCarRequest("Toyota", "Camry", "ABC123");
         Car car = new Car(id, "Toyota", "Camry", "ABC123");
-        CarResponse response = new CarResponse(car.getId(), car.getMake(), car.getModel(), car.getRegistrationNumber());
 
         when(carsService.updateById(any(UUID.class), any(Car.class))).thenReturn(car);
 
@@ -124,9 +115,7 @@ class CarsControllerTest {
     @Test
     void testUpdateCarById_notFound() throws Exception {
         UUID id = UUID.randomUUID();
-        UpdateCarRequest request = new UpdateCarRequest("Toyota", "Camry", "ABC123");
         Car car = new Car(id, "Toyota", "Camry", "ABC123");
-        CarResponse response = new CarResponse(car.getId(), car.getMake(), car.getModel(), car.getRegistrationNumber());
 
         when(carsService.updateById(any(UUID.class), any(Car.class))).thenReturn(null);
 

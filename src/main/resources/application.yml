@@ -1,3 +1,13 @@
 spring:
   application:
     name: book-and-drive-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bookanddrive
+    username: bookanddrive
+    password: b00kanddrive!
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+
+

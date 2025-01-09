@@ -1,4 +1,4 @@
-package org.redcode.bookanddriveservice.cars.model;
+package org.redcode.bookanddriveservice.trainees.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,15 +17,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 @Entity
-@Table(name = "cars")
-public class CarEntity {
+@Table(name = "trainee")
+public class TraineeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     @Column(nullable = false)
-    private String make;
+    private String name;
     @Column(nullable = false)
-    private String model;
-    @Column(unique = true, nullable = false)
-    private String registrationNumber;
+    private String sureName;
 }
