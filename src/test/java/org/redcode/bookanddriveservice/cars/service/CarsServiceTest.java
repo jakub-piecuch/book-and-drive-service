@@ -14,9 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 import org.redcode.bookanddriveservice.cars.dto.Car;
-import org.redcode.bookanddriveservice.cars.mappers.CarsMapper;
 import org.redcode.bookanddriveservice.cars.model.CarEntity;
 import org.redcode.bookanddriveservice.cars.repository.CarsRepository;
 import org.redcode.bookanddriveservice.cars.utils.DataGenerator;
@@ -25,9 +23,6 @@ class CarsServiceTest {
 
     @Mock
     private CarsRepository carsRepository;
-
-    @Spy
-    private CarsMapper carsMapper = new CarsMapper();
 
     @InjectMocks
     private CarsService carsService;

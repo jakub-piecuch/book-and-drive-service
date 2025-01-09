@@ -1,0 +1,12 @@
+package org.redcode.bookanddriveservice.instructors.dto;
+
+import lombok.Builder;
+
+@Builder
+public record CreateInstructorRequest(
+    String name,
+    String sureName,
+    String email
+) {
+
+}

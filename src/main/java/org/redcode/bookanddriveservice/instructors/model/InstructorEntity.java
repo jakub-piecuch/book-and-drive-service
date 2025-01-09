@@ -1,4 +1,4 @@
-package org.redcode.bookanddriveservice.cars.model;
+package org.redcode.bookanddriveservice.instructors.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,31 +11,31 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.redcode.bookanddriveservice.cars.dto.Car;
+import org.redcode.bookanddriveservice.instructors.dto.Instructor;
 
 @Data
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "cars")
-public class CarEntity {
+@Table(name = "instructors")
+public class InstructorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     @Column(nullable = false)
-    private String make;
+    private String name;
     @Column(nullable = false)
-    private String model;
+    private String sureName;
     @Column(unique = true, nullable = false)
-    private String registrationNumber;
+    private String email;
 
-    public static CarEntity from(Car car) {
-        return CarEntity.builder()
-            .id(car.getId())
-            .make(car.getMake())
-            .model(car.getModel())
-            .registrationNumber(car.getRegistrationNumber())
+    public static InstructorEntity from(Instructor instructor) {
+        return InstructorEntity.builder()
+            .id(instructor.getId())
+            .name(instructor.getName())
+            .sureName(instructor.getSureName())
+            .email(instructor.getEmail())
             .build();
     }
 }
