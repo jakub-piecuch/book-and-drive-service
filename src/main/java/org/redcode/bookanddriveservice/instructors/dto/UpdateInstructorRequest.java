@@ -2,7 +2,7 @@ package org.redcode.bookanddriveservice.instructors.dto;
 
 import lombok.Builder;
 
-@Builder(toBuilder = true)
+@Builder
 public record UpdateInstructorRequest(
     String name,
     String sureName

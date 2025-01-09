@@ -11,12 +11,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.redcode.bookanddriveservice.instructors.dto.Instructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @Data
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "instructors")
 public class InstructorEntity {
     @Id
@@ -26,5 +27,15 @@ public class InstructorEntity {
     private String name;
     @Column(nullable = false)
     private String sureName;
+    @Column(unique = true, nullable = false)
+    private String email;
 
+    public static InstructorEntity from(Instructor instructor) {
+        return InstructorEntity.builder()
+            .id(instructor.getId())
+            .name(instructor.getName())
+            .sureName(instructor.getSureName())
+            .email(instructor.getEmail())
+            .build();
+    }
 }

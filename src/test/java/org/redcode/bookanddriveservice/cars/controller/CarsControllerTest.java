@@ -16,10 +16,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.redcode.bookanddriveservice.cars.dto.Car;
-import org.redcode.bookanddriveservice.cars.mappers.CarsMapper;
 import org.redcode.bookanddriveservice.cars.service.CarsService;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -30,9 +28,6 @@ class CarsControllerTest {
 
     @Mock
     CarsService carsService; // Mock of the service
-
-    @Spy
-    private CarsMapper carsMapper = new CarsMapper(); // Mock of the mapper
 
     private MockMvc mockMvc;
 

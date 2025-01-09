@@ -2,10 +2,11 @@ package org.redcode.bookanddriveservice.instructors.dto;
 
 import lombok.Builder;
 
-@Builder(toBuilder = true)
+@Builder
 public record CreateInstructorRequest(
     String name,
-    String sureName
+    String sureName,
+    String email
 ) {
 
 }

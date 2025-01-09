@@ -11,12 +11,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.redcode.bookanddriveservice.cars.dto.Car;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @Data
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "cars")
 public class CarEntity {
     @Id
@@ -28,4 +29,13 @@ public class CarEntity {
     private String model;
     @Column(unique = true, nullable = false)
     private String registrationNumber;
+
+    public static CarEntity from(Car car) {
+        return CarEntity.builder()
+            .id(car.getId())
+            .make(car.getMake())
+            .model(car.getModel())
+            .registrationNumber(car.getRegistrationNumber())
+            .build();
+    }
 }
