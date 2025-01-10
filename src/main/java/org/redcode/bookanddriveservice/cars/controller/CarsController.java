@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.redcode.bookanddriveservice.cars.dto.Car;
 import org.redcode.bookanddriveservice.cars.dto.CarResponse;
 import org.redcode.bookanddriveservice.cars.dto.CreateCarRequest;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequestMapping("/cars")
 @RequiredArgsConstructor
@@ -38,6 +40,8 @@ class CarsController {
 
     @GetMapping
     public ResponseEntity<List<CarResponse>> getCars() {
+        log.info("Fetching all cars.");
+
         List<CarResponse> cars = carsService.getCars().stream()
             .map(CarResponse::from)
             .toList();
