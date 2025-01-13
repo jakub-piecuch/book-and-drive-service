@@ -5,6 +5,7 @@ import lombok.Builder;
 @Builder
 public record UpdateInstructorRequest(
     String name,
-    String sureName
+    String sureName,
+    String email
 ) {
 }

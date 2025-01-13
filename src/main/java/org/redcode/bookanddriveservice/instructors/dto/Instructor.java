@@ -23,4 +23,20 @@ public class Instructor {
             .email(instructor.getEmail())
             .build();
     }
+
+    public static Instructor from(CreateInstructorRequest instructor) {
+        return Instructor.builder()
+            .name(instructor.name())
+            .sureName(instructor.sureName())
+            .email(instructor.email())
+            .build();
+    }
+
+    public static Instructor from(UpdateInstructorRequest instructor) {
+        return Instructor.builder()
+            .name(instructor.name())
+            .sureName(instructor.sureName())
+            .email(instructor.email())
+            .build();
+    }
 }

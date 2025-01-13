@@ -25,4 +25,21 @@ public class Trainee {
             .email(trainee.getEmail())
             .build();
     }
+
+    public static Trainee from(CreateTraineeRequest request) {
+        return Trainee.builder()
+            .name(request.name())
+            .sureName(request.sureName())
+            .email(request.email())
+            .build();
+    }
+
+
+    public static Trainee from(UpdateTraineeRequest request) {
+        return Trainee.builder()
+            .name(request.name())
+            .sureName(request.sureName())
+            .email(request.email())
+            .build();
+    }
 }
