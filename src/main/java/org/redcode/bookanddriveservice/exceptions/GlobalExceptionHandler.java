@@ -71,7 +71,7 @@ public class GlobalExceptionHandler {
         ErrorDetails errorDetails = ErrorDetails.builder()
             .timestamp(LocalDateTime.now())
             .status(problemDetail.getStatus())
-            .reason("_" + exception.getFieldError().getField())
+            .reason("missing_or_wrong_" + exception.getFieldError().getField())
             .message(problemDetail.getDetail())
             .build();
 
