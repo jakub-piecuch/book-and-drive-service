@@ -14,6 +14,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redcode.bookanddriveservice.lessons.model.LessonEntity;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 @Slf4j
@@ -24,7 +25,7 @@ public class LessonCustomSearchRepository {
     @PersistenceContext
     private final EntityManager entityManager;
 
-    public List<LessonEntity> findAllByCriteria(LessonSearchCriteria criteria) {
+    public List<LessonEntity> findAllByCriteria(LessonSearchCriteria criteria, PageRequest pageRequest) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<LessonEntity> criteriaQuery = criteriaBuilder.createQuery(LessonEntity.class);
         Root<LessonEntity> root = criteriaQuery.from(LessonEntity.class);
@@ -34,7 +35,14 @@ public class LessonCustomSearchRepository {
         criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
 
         TypedQuery<LessonEntity> query = entityManager.createQuery(criteriaQuery);
-        log.info("Criteria query: {}", query);
+        if (pageRequest.getPageNumber() == 0) {
+            query.setFirstResult(pageRequest.getPageNumber());
+        } else {
+            query.setFirstResult(pageRequest.getPageNumber() + pageRequest.getPageSize() - 1);
+        }
+
+        query.setMaxResults(pageRequest.getPageSize());
+
         return query.getResultList();
     }
 

@@ -1,5 +1,7 @@
 package org.redcode.bookanddriveservice.cars.model;
 
+import static java.util.Objects.isNull;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,6 +33,9 @@ public class CarEntity {
     private String registrationNumber;
 
     public static CarEntity from(Car car) {
+        if (isNull(car)) {
+            return null;
+        }
         return CarEntity.builder()
             .id(car.getId())
             .make(car.getMake())

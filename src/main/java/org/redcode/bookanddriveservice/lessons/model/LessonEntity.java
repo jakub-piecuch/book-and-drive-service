@@ -26,28 +26,28 @@ import org.redcode.bookanddriveservice.trainees.model.TraineeEntity;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "instructors")
+@Table(name = "lessons")
 public class LessonEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+    @NotNull
     @Column(nullable = false)
     private LocalDateTime endTime;
     @NotNull
     @Column(nullable = false)
     private LocalDateTime startTime;
-    @NotNull
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "instructor_id", nullable = false)
+    @JoinColumn(name = "instructors_id", nullable = false)
     private InstructorEntity instructor;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "trainee_id", nullable = false)
+    @JoinColumn(name = "trainees_id", nullable = false)
     private TraineeEntity trainee;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "car_id")
+    @JoinColumn(name = "cars_id")
     private CarEntity car;
 
     public static LessonEntity from(Lesson lesson){

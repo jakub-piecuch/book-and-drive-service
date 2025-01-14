@@ -14,7 +14,7 @@ import org.redcode.bookanddriveservice.lessons.repository.LessonSearchCriteria;
 import org.redcode.bookanddriveservice.lessons.repository.LessonsRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -32,9 +32,10 @@ public class LessonsService {
 
         if (startTime.isAfter(endTime)) {
             log.error("Start time: {}, cannot be greater than end time: {}.", startTime, endTime);
-            throw LessonsException.of(HttpStatus.BAD_REQUEST, ErrorDetails.builder()
-                .message("Start time cannot be greater than end time")
-                .build());
+            throw LessonsException.of(HttpStatus.BAD_REQUEST, ErrorDetails.of(
+                HttpStatus.BAD_REQUEST.value(),
+                "invalid_dates",
+                "Start time cannot be greater than end time"));
         }
 
         LessonEntity lessonEntity = LessonEntity.from(lesson);
@@ -43,8 +44,8 @@ public class LessonsService {
         return Lesson.from(savedLesson);
     }
 
-    public Page<Lesson> findByCriteria(LessonSearchCriteria criteria, Pageable pageable) {
-        List<Lesson> lessons = lessonCustomRepository.findAllByCriteria(criteria).stream()
+    public Page<Lesson> findByCriteria(LessonSearchCriteria criteria, PageRequest pageRequest) {
+        List<Lesson> lessons = lessonCustomRepository.findAllByCriteria(criteria, pageRequest).stream()
             .map(Lesson::from)
             .toList();
         log.info("Lessons by criteria: {}", lessons);
@@ -52,7 +53,7 @@ public class LessonsService {
         long lessonsCount = lessonCustomRepository.getTotalCount(criteria);
         log.info("Count lessons by criteria: {}", lessonsCount);
 
-        return new PageImpl<>(lessons, pageable, lessonsCount);
+        return new PageImpl<>(lessons, pageRequest, lessonsCount);
     }
 
     public UUID deleteById(UUID id) {

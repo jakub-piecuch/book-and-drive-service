@@ -39,7 +39,7 @@ public class LessonsController {
         Lesson createdLesson = lessonsService.create(lesson);
         LessonResponse response = LessonResponse.from(createdLesson);
 
-        return ResponseEntity.ok(response);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @GetMapping

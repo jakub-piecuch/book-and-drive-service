@@ -11,7 +11,7 @@ import org.redcode.bookanddriveservice.trainees.dto.CreateTraineeRequest;
 import org.redcode.bookanddriveservice.trainees.dto.Trainee;
 import org.redcode.bookanddriveservice.trainees.dto.TraineeResponse;
 import org.redcode.bookanddriveservice.trainees.dto.UpdateTraineeRequest;
-import org.redcode.bookanddriveservice.trainees.service.TraineeService;
+import org.redcode.bookanddriveservice.trainees.service.TraineesService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class TraineesController {
 
-    private final TraineeService traineesService;
+    private final TraineesService traineesService;
 
     @PostMapping
     public ResponseEntity<TraineeResponse> createTrainee(@Valid @RequestBody CreateTraineeRequest request) {
@@ -43,7 +43,7 @@ public class TraineesController {
     @GetMapping
     public ResponseEntity<List<TraineeResponse>> getTrainees() {
         log.info("Fetching all trainees.");
-        List<TraineeResponse> trainees = traineesService.getCars().stream()
+        List<TraineeResponse> trainees = traineesService.getTrainees().stream()
             .map(TraineeResponse::from)
             .toList();
 

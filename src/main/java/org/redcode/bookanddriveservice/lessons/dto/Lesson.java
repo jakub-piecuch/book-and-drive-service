@@ -1,5 +1,7 @@
 package org.redcode.bookanddriveservice.lessons.dto;
 
+import static java.util.Objects.nonNull;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -35,7 +37,7 @@ public class Lesson {
     }
 
     public static Lesson from(CreateLessonRequest lesson) {
-        return Lesson.builder()
+        LessonBuilder lessonBuilder = Lesson.builder()
             .startTime(lesson.startTime())
             .endTime(lesson.endTime())
             .instructor(Instructor.builder()
@@ -43,10 +45,12 @@ public class Lesson {
                 .build())
             .trainee(Trainee.builder()
                 .id(lesson.traineeId())
-                .build())
-            .car(Car.builder()
-                .id(lesson.carId())
-                .build())
-            .build();
+                .build());
+
+        if (nonNull(lesson.carId())) {
+            lessonBuilder.car(Car.builder().id(lesson.carId()).build());
+        }
+
+        return lessonBuilder.build();
     }
 }

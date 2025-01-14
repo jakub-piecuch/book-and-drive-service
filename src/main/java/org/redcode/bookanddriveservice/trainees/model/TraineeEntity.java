@@ -18,7 +18,7 @@ import org.redcode.bookanddriveservice.trainees.dto.Trainee;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "trainee")
+@Table(name = "trainees")
 public class TraineeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

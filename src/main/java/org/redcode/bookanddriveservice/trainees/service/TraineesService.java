@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class TraineeService {
+public class TraineesService {
     
     private final TraineesRepository repository;
 
@@ -21,7 +21,7 @@ public class TraineeService {
         return Trainee.from(savedTrainee);
     }
 
-    public List<Trainee> getCars() {
+    public List<Trainee> getTrainees() {
         return repository.findAll().stream()
             .map(Trainee::from)
             .toList();

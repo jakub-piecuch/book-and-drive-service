@@ -1,5 +1,7 @@
 package org.redcode.bookanddriveservice.cars.dto;
 
+import static java.util.Objects.isNull;
+
 import java.util.UUID;
 import lombok.Builder;
 
@@ -11,6 +13,9 @@ public record CarResponse(
     String registrationNumber
 ) {
     public static CarResponse from(Car car) {
+        if (isNull(car)) {
+            return null;
+        }
         return CarResponse.builder()
             .id(car.getId())
             .make(car.getMake())

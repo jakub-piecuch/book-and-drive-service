@@ -11,7 +11,15 @@ import lombok.Data;
 public class ErrorDetails {
     private LocalDateTime timestamp;
     private int status;
-    private String error;
+    private String reason;
     private String message;
 
+    public static ErrorDetails of(int status, String reason, String message) {
+        return ErrorDetails.builder()
+            .timestamp(LocalDateTime.now())
+            .status(status)
+            .reason(reason)
+            .message(message)
+            .build();
+    }
 }

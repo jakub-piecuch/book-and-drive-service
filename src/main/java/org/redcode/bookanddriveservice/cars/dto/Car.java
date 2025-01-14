@@ -1,5 +1,7 @@
 package org.redcode.bookanddriveservice.cars.dto;
 
+import static java.util.Objects.isNull;
+
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,12 +17,15 @@ public class Car {
     private String model;
     private String registrationNumber;
 
-    public static Car from(CarEntity car) {
+    public static Car from(CarEntity entity) {
+        if (isNull(entity)) {
+            return null;
+        }
         return Car.builder()
-            .id(car.getId())
-            .make(car.getMake())
-            .model(car.getModel())
-            .registrationNumber(car.getRegistrationNumber())
+            .id(entity.getId())
+            .make(entity.getMake())
+            .model(entity.getModel())
+            .registrationNumber(entity.getRegistrationNumber())
             .build();
     }
 
