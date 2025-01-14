@@ -13,25 +13,27 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.redcode.bookanddriveservice.lessons.dto.Lesson;
+import org.redcode.bookanddriveservice.lessons.model.LessonEntity;
+import org.springframework.stereotype.Repository;
 
 @Slf4j
+@Repository
 @RequiredArgsConstructor
 public class LessonCustomSearchRepository {
 
     @PersistenceContext
     private final EntityManager entityManager;
 
-    public List<Lesson> findAllByCriteria(LessonSearchCriteria criteria) {
+    public List<LessonEntity> findAllByCriteria(LessonSearchCriteria criteria) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Lesson> criteriaQuery = criteriaBuilder.createQuery(Lesson.class);
-        Root<Lesson> root = criteriaQuery.from(Lesson.class);
+        CriteriaQuery<LessonEntity> criteriaQuery = criteriaBuilder.createQuery(LessonEntity.class);
+        Root<LessonEntity> root = criteriaQuery.from(LessonEntity.class);
 
         List<Predicate> predicates = buildPredicates(criteria, criteriaBuilder, root);
 
         criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
 
-        TypedQuery<Lesson> query = entityManager.createQuery(criteriaQuery);
+        TypedQuery<LessonEntity> query = entityManager.createQuery(criteriaQuery);
         log.info("Criteria query: {}", query);
         return query.getResultList();
     }
@@ -39,7 +41,7 @@ public class LessonCustomSearchRepository {
     public long getTotalCount(LessonSearchCriteria criteria) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
-        Root<Lesson> root = countQuery.from(Lesson.class);
+        Root<LessonEntity> root = countQuery.from(LessonEntity.class);
 
         List<Predicate> predicates = buildPredicates(criteria, criteriaBuilder, root);
 
@@ -49,7 +51,7 @@ public class LessonCustomSearchRepository {
         return entityManager.createQuery(countQuery).getSingleResult();
     }
 
-    private List<Predicate> buildPredicates(LessonSearchCriteria criteria, CriteriaBuilder criteriaBuilder, Root<Lesson> root) {
+    private List<Predicate> buildPredicates(LessonSearchCriteria criteria, CriteriaBuilder criteriaBuilder, Root<LessonEntity> root) {
         List<Predicate> predicates = new ArrayList<>();
 
         if (nonNull(criteria.startTime())) {

@@ -31,17 +31,17 @@ public class LessonEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+    @Column(nullable = false)
+    private LocalDateTime endTime;
     @NotNull
+    @Column(nullable = false)
     private LocalDateTime startTime;
     @NotNull
-    private LocalDateTime endTime;
 
-    @Column(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instructor_id", nullable = false)
     private InstructorEntity instructor;
 
-    @Column(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trainee_id", nullable = false)
     private TraineeEntity trainee;
