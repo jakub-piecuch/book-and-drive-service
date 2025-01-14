@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
             .message(exception.getMessage())
             .build();
 
-        return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(errorDetails, HttpStatus.valueOf((exception.getStatusCode().value())));
     }
 
     @ExceptionHandler(SQLException.class)
@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
             .message(exception.getMessage())
             .build();
 
-        return new ResponseEntity<>(errorDetails, HttpStatus.valueOf(400));
+        return new ResponseEntity<>(errorDetails, HttpStatus.valueOf(exception.getErrorCode()));
     }
 
     @ExceptionHandler(LessonsException.class)
@@ -75,7 +75,7 @@ public class GlobalExceptionHandler {
             .message(problemDetail.getDetail())
             .build();
 
-        return new ResponseEntity<>(errorDetails, HttpStatus.valueOf(400));
+        return new ResponseEntity<>(errorDetails, HttpStatus.valueOf(problemDetail.getStatus()));
     }
 
     //     Handle Generic Exceptions
