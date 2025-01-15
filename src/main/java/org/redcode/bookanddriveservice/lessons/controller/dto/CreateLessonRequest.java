@@ -1,5 +1,6 @@
-package org.redcode.bookanddriveservice.lessons.dto;
+package org.redcode.bookanddriveservice.lessons.controller.dto;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -15,6 +16,7 @@ public record CreateLessonRequest(
     UUID instructorId,
     @NotNull
     UUID traineeId,
+    @Nullable
     UUID carId
 ){
 }

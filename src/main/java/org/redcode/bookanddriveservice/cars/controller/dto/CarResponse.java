@@ -1,7 +1,10 @@
-package org.redcode.bookanddriveservice.cars.dto;
+package org.redcode.bookanddriveservice.cars.controller.dto;
+
+import static java.util.Objects.isNull;
 
 import java.util.UUID;
 import lombok.Builder;
+import org.redcode.bookanddriveservice.cars.domain.Car;
 
 @Builder
 public record CarResponse(
@@ -11,6 +14,9 @@ public record CarResponse(
     String registrationNumber
 ) {
     public static CarResponse from(Car car) {
+        if (isNull(car)) {
+            return null;
+        }
         return CarResponse.builder()
             .id(car.getId())
             .make(car.getMake())

@@ -11,14 +11,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.redcode.bookanddriveservice.trainees.dto.Trainee;
+import org.redcode.bookanddriveservice.trainees.domain.Trainee;
 
 @Data
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "trainee")
+@Table(name = "trainees")
 public class TraineeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.redcode.bookanddriveservice.cars.dto.Car;
+import org.redcode.bookanddriveservice.cars.domain.Car;
 import org.redcode.bookanddriveservice.cars.model.CarEntity;
 import org.redcode.bookanddriveservice.cars.repository.CarsRepository;
 import org.redcode.bookanddriveservice.cars.utils.DataGenerator;

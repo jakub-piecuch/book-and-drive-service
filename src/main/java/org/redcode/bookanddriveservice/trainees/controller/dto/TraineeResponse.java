@@ -1,15 +1,16 @@
-package org.redcode.bookanddriveservice.trainees.dto;
+package org.redcode.bookanddriveservice.trainees.controller.dto;
 
 import java.util.UUID;
 import lombok.Builder;
+import org.redcode.bookanddriveservice.trainees.domain.Trainee;
 
 @Builder
-public class TraineeResponse {
-    private UUID id;
-    private String name;
-    private String sureName;
-    private String email;
-
+public record TraineeResponse(
+    UUID id,
+    String name,
+    String sureName,
+    String email
+) {
     public static TraineeResponse from(Trainee trainee) {
         return TraineeResponse.builder()
             .id(trainee.getId())

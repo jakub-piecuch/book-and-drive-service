@@ -1,4 +1,4 @@
-package org.redcode.bookanddriveservice.instructors.dto;
+package org.redcode.bookanddriveservice.instructors.controller.dto;
 
 import lombok.Builder;
 

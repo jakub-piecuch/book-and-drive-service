@@ -1,7 +1,8 @@
-package org.redcode.bookanddriveservice.instructors.dto;
+package org.redcode.bookanddriveservice.instructors.controller.dto;
 
 import java.util.UUID;
 import lombok.Builder;
+import org.redcode.bookanddriveservice.instructors.domain.Instructor;
 
 @Builder
 public record InstructorResponse(
