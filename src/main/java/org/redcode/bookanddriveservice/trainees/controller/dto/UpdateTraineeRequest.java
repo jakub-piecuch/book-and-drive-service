@@ -1,4 +1,4 @@
-package org.redcode.bookanddriveservice.trainees.dto;
+package org.redcode.bookanddriveservice.trainees.controller.dto;
 
 import lombok.Builder;
 

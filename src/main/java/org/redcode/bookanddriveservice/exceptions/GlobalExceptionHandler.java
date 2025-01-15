@@ -51,14 +51,19 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.valueOf(exception.getErrorCode()));
     }
 
-    @ExceptionHandler(LessonsException.class)
-    public ResponseEntity<ErrorDetails> handleLessonsException(
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<ErrorDetails> handleValidationException(
         Exception ex, WebRequest request
     ) {
-        LessonsException exception = (LessonsException) ex;
-        ErrorDetails errorDetails = exception.getErrorDetails();
+        ValidationException exception = (ValidationException) ex;
+        ErrorDetails errorDetails = ErrorDetails.builder()
+            .timestamp(LocalDateTime.now())
+            .status(400)
+            .reason(exception.getReason())
+            .message(exception.getMessage())
+            .build();
 
-        return new ResponseEntity<>(errorDetails, HttpStatusCode.valueOf((exception.getStatusCode())));
+        return new ResponseEntity<>(errorDetails, HttpStatusCode.valueOf((errorDetails.getStatus())));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

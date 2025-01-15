@@ -1,4 +1,4 @@
-package org.redcode.bookanddriveservice.cars.dto;
+package org.redcode.bookanddriveservice.cars.domain;
 
 import static java.util.Objects.isNull;
 
@@ -6,6 +6,8 @@ import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.redcode.bookanddriveservice.cars.controller.dto.CreateCarRequest;
+import org.redcode.bookanddriveservice.cars.controller.dto.UpdateCarRequest;
 import org.redcode.bookanddriveservice.cars.model.CarEntity;
 
 @Data

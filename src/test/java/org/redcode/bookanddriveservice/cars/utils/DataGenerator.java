@@ -2,7 +2,7 @@ package org.redcode.bookanddriveservice.cars.utils;
 
 import java.util.UUID;
 import lombok.experimental.UtilityClass;
-import org.redcode.bookanddriveservice.cars.dto.Car;
+import org.redcode.bookanddriveservice.cars.domain.Car;
 import org.redcode.bookanddriveservice.cars.model.CarEntity;
 
 @UtilityClass

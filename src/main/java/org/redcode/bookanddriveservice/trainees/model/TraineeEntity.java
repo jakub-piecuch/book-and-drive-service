@@ -11,7 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.redcode.bookanddriveservice.trainees.dto.Trainee;
+import org.redcode.bookanddriveservice.trainees.domain.Trainee;
 
 @Data
 @Entity

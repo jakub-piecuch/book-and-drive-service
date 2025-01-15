@@ -1,4 +1,4 @@
-package org.redcode.bookanddriveservice.lessons.dto;
+package org.redcode.bookanddriveservice.lessons.controller.dto;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;

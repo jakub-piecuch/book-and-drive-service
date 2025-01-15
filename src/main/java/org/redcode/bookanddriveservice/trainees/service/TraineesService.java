@@ -3,7 +3,7 @@ package org.redcode.bookanddriveservice.trainees.service;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import org.redcode.bookanddriveservice.trainees.dto.Trainee;
+import org.redcode.bookanddriveservice.trainees.domain.Trainee;
 import org.redcode.bookanddriveservice.trainees.model.TraineeEntity;
 import org.redcode.bookanddriveservice.trainees.repository.TraineesRepository;
 import org.springframework.stereotype.Service;

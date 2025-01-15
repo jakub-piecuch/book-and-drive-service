@@ -5,9 +5,8 @@ import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.redcode.bookanddriveservice.exceptions.ErrorDetails;
-import org.redcode.bookanddriveservice.exceptions.LessonsException;
-import org.redcode.bookanddriveservice.lessons.dto.Lesson;
+import org.redcode.bookanddriveservice.exceptions.ValidationException;
+import org.redcode.bookanddriveservice.lessons.domain.Lesson;
 import org.redcode.bookanddriveservice.lessons.model.LessonEntity;
 import org.redcode.bookanddriveservice.lessons.repository.LessonCustomSearchRepository;
 import org.redcode.bookanddriveservice.lessons.repository.LessonSearchCriteria;
@@ -15,7 +14,6 @@ import org.redcode.bookanddriveservice.lessons.repository.LessonsRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -32,10 +30,7 @@ public class LessonsService {
 
         if (startTime.isAfter(endTime)) {
             log.error("Start time: {}, cannot be greater than end time: {}.", startTime, endTime);
-            throw LessonsException.of(HttpStatus.BAD_REQUEST, ErrorDetails.of(
-                HttpStatus.BAD_REQUEST.value(),
-                "invalid_dates",
-                "Start time cannot be greater than end time"));
+            throw ValidationException.of("invalid_dates", "Start time cannot be greater than end time");
         }
 
         LessonEntity lessonEntity = LessonEntity.from(lesson);

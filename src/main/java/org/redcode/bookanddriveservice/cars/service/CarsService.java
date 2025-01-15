@@ -3,7 +3,7 @@ package org.redcode.bookanddriveservice.cars.service;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import org.redcode.bookanddriveservice.cars.dto.Car;
+import org.redcode.bookanddriveservice.cars.domain.Car;
 import org.redcode.bookanddriveservice.cars.model.CarEntity;
 import org.redcode.bookanddriveservice.cars.repository.CarsRepository;
 import org.springframework.stereotype.Service;

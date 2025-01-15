@@ -1,10 +1,11 @@
-package org.redcode.bookanddriveservice.lessons.dto;
+package org.redcode.bookanddriveservice.lessons.controller.dto;
 
 import static java.util.Objects.nonNull;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.Builder;
+import org.redcode.bookanddriveservice.lessons.domain.Lesson;
 
 @Builder
 public record LessonResponse(

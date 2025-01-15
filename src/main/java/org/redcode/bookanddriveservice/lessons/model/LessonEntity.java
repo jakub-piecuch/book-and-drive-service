@@ -18,7 +18,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.redcode.bookanddriveservice.cars.model.CarEntity;
 import org.redcode.bookanddriveservice.instructors.model.InstructorEntity;
-import org.redcode.bookanddriveservice.lessons.dto.Lesson;
+import org.redcode.bookanddriveservice.lessons.domain.Lesson;
 import org.redcode.bookanddriveservice.trainees.model.TraineeEntity;
 
 @Data

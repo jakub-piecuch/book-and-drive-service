@@ -1,4 +1,4 @@
-package org.redcode.bookanddriveservice.lessons.dto;
+package org.redcode.bookanddriveservice.lessons.domain;
 
 import static java.util.Objects.nonNull;
 
@@ -8,10 +8,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.redcode.bookanddriveservice.cars.dto.Car;
-import org.redcode.bookanddriveservice.instructors.dto.Instructor;
+import org.redcode.bookanddriveservice.cars.domain.Car;
+import org.redcode.bookanddriveservice.instructors.domain.Instructor;
+import org.redcode.bookanddriveservice.lessons.controller.dto.CreateLessonRequest;
 import org.redcode.bookanddriveservice.lessons.model.LessonEntity;
-import org.redcode.bookanddriveservice.trainees.dto.Trainee;
+import org.redcode.bookanddriveservice.trainees.domain.Trainee;
 
 @Data
 @Builder

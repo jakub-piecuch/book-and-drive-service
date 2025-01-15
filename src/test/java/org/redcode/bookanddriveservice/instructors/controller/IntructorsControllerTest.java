@@ -17,7 +17,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.redcode.bookanddriveservice.instructors.dto.Instructor;
+import org.redcode.bookanddriveservice.instructors.domain.Instructor;
 import org.redcode.bookanddriveservice.instructors.service.InstructorsService;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;

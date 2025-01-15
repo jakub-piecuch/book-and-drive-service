@@ -1,4 +1,4 @@
-package org.redcode.bookanddriveservice.cars.dto;
+package org.redcode.bookanddriveservice.cars.controller.dto;
 
 import lombok.Builder;
 

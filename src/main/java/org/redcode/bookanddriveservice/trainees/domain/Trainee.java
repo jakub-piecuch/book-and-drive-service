@@ -1,10 +1,12 @@
-package org.redcode.bookanddriveservice.trainees.dto;
+package org.redcode.bookanddriveservice.trainees.domain;
 
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.redcode.bookanddriveservice.trainees.controller.dto.CreateTraineeRequest;
+import org.redcode.bookanddriveservice.trainees.controller.dto.UpdateTraineeRequest;
 import org.redcode.bookanddriveservice.trainees.model.TraineeEntity;
 
 @Data

@@ -1,7 +1,8 @@
-package org.redcode.bookanddriveservice.trainees.dto;
+package org.redcode.bookanddriveservice.trainees.controller.dto;
 
 import java.util.UUID;
 import lombok.Builder;
+import org.redcode.bookanddriveservice.trainees.domain.Trainee;
 
 @Builder
 public record TraineeResponse(

@@ -1,9 +1,11 @@
-package org.redcode.bookanddriveservice.instructors.dto;
+package org.redcode.bookanddriveservice.instructors.domain;
 
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.redcode.bookanddriveservice.instructors.controller.dto.CreateInstructorRequest;
+import org.redcode.bookanddriveservice.instructors.controller.dto.UpdateInstructorRequest;
 import org.redcode.bookanddriveservice.instructors.model.InstructorEntity;
 
 @Data
