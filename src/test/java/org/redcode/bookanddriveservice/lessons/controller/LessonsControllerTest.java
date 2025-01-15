@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.UUID;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,8 +47,8 @@ class LessonsControllerTest {
         var traineeId = UUID.randomUUID();
         Lesson lesson = Lesson.builder()
             .id(UUID.randomUUID())
-            .startTime(LocalDateTime.of(LocalDate.of(2025, 01, 12), LocalTime.of(12, 25)))
-            .endTime(LocalDateTime.of(LocalDate.of(2025, 01, 12), LocalTime.of(13, 25)))
+            .startTime(LocalDateTime.of(LocalDate.of(2025, 1, 12), LocalTime.of(12, 25)))
+            .endTime(LocalDateTime.of(LocalDate.of(2025, 1, 12), LocalTime.of(13, 25)))
             .instructor(Instructor.builder().id(instructorId).build())
             .trainee(Trainee.builder().id(traineeId).build())
             .build();
@@ -64,11 +65,10 @@ class LessonsControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content))
             .andExpect(status().isCreated())
-            .andExpect(jsonPath("$.startTime").value(null))
-            .andExpect(jsonPath("$.endTime").value(null))
-            .andExpect(jsonPath("$.instructorId").value(instructorId))
-            .andExpect(jsonPath("$.traineeId").value(traineeId))
-            .andExpect(jsonPath("$.carId").value(traineeId));
+            .andExpect(jsonPath("$.startTime", Matchers.contains(2025, 1, 12, 12, 25)))
+            .andExpect(jsonPath("$.endTime", Matchers.contains(2025, 1, 12, 13, 25)))
+            .andExpect(jsonPath("$.instructorId").value(instructorId.toString()))
+            .andExpect(jsonPath("$.traineeId").value(traineeId.toString()));
     }
 
     @Test
