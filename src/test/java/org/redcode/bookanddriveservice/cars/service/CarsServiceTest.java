@@ -11,7 +11,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,6 +23,7 @@ import org.redcode.bookanddriveservice.cars.domain.Car;
 import org.redcode.bookanddriveservice.cars.model.CarEntity;
 import org.redcode.bookanddriveservice.cars.repository.CarsRepository;
 import org.redcode.bookanddriveservice.cars.utils.DataGenerator;
+import org.redcode.bookanddriveservice.exceptions.ResourceNotFoundException;
 
 class CarsServiceTest {
 
@@ -121,11 +121,11 @@ class CarsServiceTest {
         when(carsRepository.findById(carId)).thenReturn(Optional.empty());
 
         // Act & Assert
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class,
             () -> carsService.deleteById(carId)
         );
 
-        assertEquals("Car with ID " + carId + " not found.", exception.getMessage());
+        assertEquals("Resource not found.", exception.getMessage());
         verify(carsRepository, never()).deleteById(carId);
     }
 
