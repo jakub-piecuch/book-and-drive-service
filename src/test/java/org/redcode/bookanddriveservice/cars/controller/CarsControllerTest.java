@@ -82,16 +82,6 @@ class CarsControllerTest {
     }
 
     @Test
-    void testGetCarById_notFound() throws Exception {
-        UUID id = UUID.randomUUID();
-
-        when(carsService.findById(id)).thenReturn(null);
-
-        mockMvc.perform(get("/cars/{id}", id))
-            .andExpect(status().isNotFound());
-    }
-
-    @Test
     void testUpdateCarById() throws Exception {
         UUID id = UUID.randomUUID();
         Car car = new Car(id, "Toyota", "Camry", "ABC123");
@@ -108,36 +98,10 @@ class CarsControllerTest {
     }
 
     @Test
-    void testUpdateCarById_notFound() throws Exception {
-        UUID id = UUID.randomUUID();
-        Car car = new Car(id, "Toyota", "Camry", "ABC123");
-
-        when(carsService.updateById(any(UUID.class), any(Car.class))).thenReturn(null);
-
-        mockMvc.perform(put("/cars/{id}", id)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"make\":\"Toyota\",\"model\":\"Camry\",\"registrationNumber\":\"ABC123\"}"))
-            .andExpect(status().isNotFound());
-    }
-
-    @Test
     void testDeleteCarById() throws Exception {
         UUID id = UUID.randomUUID();
 
-        when(carsService.deleteById(any(UUID.class))).thenReturn(id);
-
         mockMvc.perform(delete("/cars/{id}", id))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$").value(id.toString()));
-    }
-
-    @Test
-    void testDeleteCarById_notFound() throws Exception {
-        UUID id = UUID.randomUUID();
-
-        when(carsService.deleteById(any(UUID.class))).thenReturn(null);
-
-        mockMvc.perform(delete("/cars/{id}", id))
-            .andExpect(status().isNotFound());
+            .andExpect(status().isNoContent());
     }
 }

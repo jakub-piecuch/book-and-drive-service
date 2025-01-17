@@ -1,5 +1,7 @@
 package org.redcode.bookanddriveservice.cars.controller;
 
+import static org.redcode.bookanddriveservice.exceptions.ResourceNotFoundException.RESOURECE_NOT_FOUND;
+
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +13,7 @@ import org.redcode.bookanddriveservice.cars.controller.dto.CreateCarRequest;
 import org.redcode.bookanddriveservice.cars.controller.dto.UpdateCarRequest;
 import org.redcode.bookanddriveservice.cars.domain.Car;
 import org.redcode.bookanddriveservice.cars.service.CarsService;
+import org.redcode.bookanddriveservice.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -54,22 +57,20 @@ class CarsController {
         return Optional.ofNullable(carsService.findById(id))
             .map(CarResponse::from)
             .map(ResponseEntity::ok)
-            .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+            .orElseThrow(() -> ResourceNotFoundException.of(RESOURECE_NOT_FOUND));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CarResponse> updateCarById(@PathVariable UUID id, @RequestBody UpdateCarRequest request) {
         Car car = Car.from(request);
-        return Optional.ofNullable(carsService.updateById(id, car))
-            .map(CarResponse::from)
-            .map(ResponseEntity::ok)
-            .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        CarResponse response = CarResponse.from(carsService.updateById(id,car));
+
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<UUID> deleteCarById(@PathVariable UUID id) {
-        return Optional.ofNullable(carsService.deleteById(id))
-            .map(ResponseEntity::ok)
-            .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    public ResponseEntity<Void> deleteCarById(@PathVariable UUID id) {
+        carsService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
