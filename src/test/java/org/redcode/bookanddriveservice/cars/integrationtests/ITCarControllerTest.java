@@ -1,7 +1,6 @@
 package org.redcode.bookanddriveservice.cars.integrationtests;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -16,7 +15,6 @@ import org.redcode.bookanddriveservice.cars.controller.dto.UpdateCarRequest;
 import org.redcode.bookanddriveservice.cars.domain.Car;
 import org.redcode.bookanddriveservice.cars.model.CarEntity;
 import org.redcode.bookanddriveservice.cars.repository.CarsRepository;
-import org.redcode.bookanddriveservice.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -28,12 +26,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.jdbc.JdbcTestUtils;
-import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-@Transactional
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ITCarControllerTest {
@@ -87,13 +83,14 @@ class ITCarControllerTest {
     @Test
     void shouldFindCarById() {
         CarResponse addedCar = addCar();
+        String registrationNumber = addedCar.registrationNumber();
 
         CarResponse response = restTemplate.getForObject("/cars/" + addedCar.id(), CarResponse.class);
 
         assertThat(response.id()).isNotNull();
         assertThat(response.make()).isEqualTo("skoda");
         assertThat(response.model()).isEqualTo("superb");
-        assertThat(response.registrationNumber()).isEqualTo("SB498HB");
+        assertThat(response.registrationNumber()).isEqualTo(registrationNumber);
     }
 
     @Test
@@ -139,14 +136,17 @@ class ITCarControllerTest {
             .registrationNumber("UPDATED123")
             .build();
 
-        assertThrows(ResourceNotFoundException.class, () ->
-            {
-                ResponseEntity<CarResponse> exchange = restTemplate.exchange("/cars/" + carId, HttpMethod.PUT,
-                    new HttpEntity<>(updateRequest),
-                    CarResponse.class);
-            }
-        );
+        ResponseEntity<String> response =
+            restTemplate.exchange(
+                "/cars/" + carId,
+                HttpMethod.PUT,
+                new HttpEntity<>(updateRequest),
+                String.class);
+        // Assert
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertThat(response.getBody()).contains("Resource not found."); // Check custom error details
     }
+
 
     @Test
     void shouldDeleteCarById() {
@@ -180,7 +180,7 @@ class ITCarControllerTest {
 
         assertThat(errorResponse.get("status")).isEqualTo(404);
         assertThat(errorResponse.get("message")).isEqualTo("Resource not found.");
-        assertThat(errorResponse.get("error")).isEqualTo("Not Found");
+        assertThat(errorResponse.get("reason")).isEqualTo("Not Found");
         assertThat(errorResponse.get("timestamp")).isNotNull();
     }
 
@@ -188,7 +188,7 @@ class ITCarControllerTest {
         CreateCarRequest request = CreateCarRequest.builder()
             .make("skoda")
             .model("superb")
-            .registrationNumber("SB123")
+            .registrationNumber(UUID.randomUUID().toString())
             .build();
 
         return restTemplate.postForEntity("/cars", request, CarResponse.class).getBody();
