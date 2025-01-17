@@ -1,11 +1,17 @@
 package org.redcode.bookanddriveservice.cars.service;
 
+import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -93,16 +99,34 @@ class CarsServiceTest {
     }
 
     @Test
-    void testDeleteById() {
-        UUID id = UUID.randomUUID();
+    void deleteById_shouldDeleteCarWhenIdExists() {
+        // Arrange
+        UUID carId = UUID.randomUUID();
         CarEntity carEntity = new CarEntity();
+        carEntity.setId(carId);
 
-        when(carsRepository.findById(id)).thenReturn(Optional.of(carEntity));
+        when(carsRepository.findById(carId)).thenReturn(Optional.of(carEntity));
 
-        UUID result = carsService.deleteById(id);
+        // Act
+        assertDoesNotThrow(() -> carsService.deleteById(carId));
 
-        assertNotNull(result);
-        assertEquals(id, result);
+        // Assert
+        verify(carsRepository, times(1)).deleteById(carId);
+    }
+
+    @Test
+    void deleteById_shouldThrowExceptionWhenIdDoesNotExist() {
+        // Arrange
+        UUID carId = UUID.randomUUID();
+        when(carsRepository.findById(carId)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
+            () -> carsService.deleteById(carId)
+        );
+
+        assertEquals("Car with ID " + carId + " not found.", exception.getMessage());
+        verify(carsRepository, never()).deleteById(carId);
     }
 
     @Test

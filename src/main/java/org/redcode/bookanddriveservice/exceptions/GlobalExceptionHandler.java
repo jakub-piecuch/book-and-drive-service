@@ -83,6 +83,18 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.valueOf(problemDetail.getStatus()));
     }
 
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorDetails> handleResourceNotFoundException(ResourceNotFoundException ex) {
+        ErrorDetails errorDetails = ErrorDetails.builder()
+            .timestamp(LocalDateTime.now())
+            .status(HttpStatus.NOT_FOUND.value())
+            .reason(HttpStatus.NOT_FOUND.getReasonPhrase())
+            .message(ex.getMessage())
+            .build();
+
+        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    }
+
     //     Handle Generic Exceptions
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorDetails> handleGenericException(

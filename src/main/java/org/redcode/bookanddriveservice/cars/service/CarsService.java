@@ -1,11 +1,14 @@
 package org.redcode.bookanddriveservice.cars.service;
 
+import static org.redcode.bookanddriveservice.exceptions.ResourceNotFoundException.RESOURECE_NOT_FOUND;
+
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.redcode.bookanddriveservice.cars.domain.Car;
 import org.redcode.bookanddriveservice.cars.model.CarEntity;
 import org.redcode.bookanddriveservice.cars.repository.CarsRepository;
+import org.redcode.bookanddriveservice.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,21 +39,20 @@ public class CarsService {
     public Car updateById(UUID id, Car car) {
         return carsRepository.findById(id)
             .map(carEntity -> {
-                CarEntity updatedCarEntity = CarEntity.from(car);
-                updatedCarEntity.setId(id);
+                CarEntity updatedCarEntity = CarEntity.update(carEntity, car);
                 CarEntity savedCar = carsRepository.save(updatedCarEntity);
                 return Car.from(savedCar);
             })
-            .orElse(null);
+            .orElseThrow(() -> ResourceNotFoundException.of(RESOURECE_NOT_FOUND));
     }
 
-    public UUID deleteById(UUID id) {
-        return carsRepository.findById(id)
-            .map(carEntity -> {
-                carsRepository.deleteById(id);
-                return id;
-            })
-            .orElse(null);
+    public void deleteById(UUID id) {
+        carsRepository.findById(id)
+            .ifPresentOrElse(
+                carEntity -> carsRepository.deleteById(id), () -> {
+                    throw ResourceNotFoundException.of(RESOURECE_NOT_FOUND);
+                }
+            );
     }
 
     public boolean existsById(UUID id) {

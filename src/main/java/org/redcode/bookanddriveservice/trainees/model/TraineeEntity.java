@@ -18,7 +18,7 @@ import org.redcode.bookanddriveservice.trainees.domain.Trainee;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "trainees")
+@Table(name = "trainee")
 public class TraineeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

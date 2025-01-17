@@ -18,7 +18,7 @@ import org.redcode.bookanddriveservice.instructors.domain.Instructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "instructors")
+@Table(name = "instructor")
 public class InstructorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

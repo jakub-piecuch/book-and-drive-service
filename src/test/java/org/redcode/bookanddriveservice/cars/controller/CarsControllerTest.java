@@ -124,7 +124,7 @@ class CarsControllerTest {
     void testDeleteCarById() throws Exception {
         UUID id = UUID.randomUUID();
 
-        when(carsService.deleteById(any(UUID.class))).thenReturn(id);
+//        when(carsService.deleteById(any(UUID.class))).thenReturn(id);
 
         mockMvc.perform(delete("/cars/{id}", id))
             .andExpect(status().isOk())
@@ -135,7 +135,7 @@ class CarsControllerTest {
     void testDeleteCarById_notFound() throws Exception {
         UUID id = UUID.randomUUID();
 
-        when(carsService.deleteById(any(UUID.class))).thenReturn(null);
+//        when(carsService.deleteById(any(UUID.class))).thenReturn(null);
 
         mockMvc.perform(delete("/cars/{id}", id))
             .andExpect(status().isNotFound());

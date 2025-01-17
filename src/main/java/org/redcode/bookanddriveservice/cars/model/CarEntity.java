@@ -20,7 +20,7 @@ import org.redcode.bookanddriveservice.cars.domain.Car;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "cars")
+@Table(name = "car")
 public class CarEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,6 +38,15 @@ public class CarEntity {
         }
         return CarEntity.builder()
             .id(car.getId())
+            .make(car.getMake())
+            .model(car.getModel())
+            .registrationNumber(car.getRegistrationNumber())
+            .build();
+    }
+
+    public static CarEntity update(CarEntity carEntity, Car car) {
+        return CarEntity.builder()
+            .id(carEntity.getId())
             .make(car.getMake())
             .model(car.getModel())
             .registrationNumber(car.getRegistrationNumber())
