@@ -2,7 +2,6 @@ package org.redcode.bookanddriveservice.lessons.controller;
 
 import jakarta.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -68,8 +67,7 @@ public class LessonsController {
     @DeleteMapping("/{id}")
     public ResponseEntity<UUID> deleteLessonById(@PathVariable UUID id) {
         log.info("Deleting Lesson by id: {}", id);
-        return Optional.ofNullable(lessonsService.deleteById(id))
-            .map(ResponseEntity::ok)
-            .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        lessonsService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

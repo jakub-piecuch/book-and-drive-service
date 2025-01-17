@@ -111,7 +111,6 @@ class InstructorsControllerTest {
     void testDeleteInstructorById() throws Exception {
         UUID id = UUID.randomUUID();
 
-
         mockMvc.perform(delete("/instructors/{id}", id))
             .andExpect(status().isNoContent());
     }

@@ -1,10 +1,13 @@
 package org.redcode.bookanddriveservice.lessons.service;
 
+import static org.redcode.bookanddriveservice.exceptions.ResourceNotFoundException.RESOURECE_NOT_FOUND;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.redcode.bookanddriveservice.exceptions.ResourceNotFoundException;
 import org.redcode.bookanddriveservice.exceptions.ValidationException;
 import org.redcode.bookanddriveservice.lessons.domain.Lesson;
 import org.redcode.bookanddriveservice.lessons.model.LessonEntity;
@@ -51,13 +54,13 @@ public class LessonsService {
         return new PageImpl<>(lessons, pageRequest, lessonsCount);
     }
 
-    public UUID deleteById(UUID id) {
-        return lessonsRepository.findById(id)
-            .map(instructorEntity -> {
-                lessonsRepository.deleteById(id);
-                return id;
-            })
-            .orElse(null);
+    public void deleteById(UUID id) {
+        lessonsRepository.findById(id)
+            .ifPresentOrElse(
+                lessonEntity -> lessonsRepository.deleteById(id), () -> {
+                    throw ResourceNotFoundException.of(RESOURECE_NOT_FOUND);
+                }
+            );
     }
 
 }
