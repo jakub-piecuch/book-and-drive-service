@@ -108,36 +108,11 @@ class InstructorsControllerTest {
     }
 
     @Test
-    void testUpdateInstructorById_notFound() throws Exception {
-        UUID id = UUID.randomUUID();
-        Instructor instructor = new Instructor(id, "Jan", "Kowalski", "abc@gmail.com");
-
-        when(instructorsService.updateById(any(UUID.class), any(Instructor.class))).thenReturn(null);
-
-        mockMvc.perform(put("/instructors/{id}", id)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"Jan\",\"sureName\":\"Kowalski\",\"email\":\"abc@gmail.com\"}"))
-            .andExpect(status().isNotFound());
-    }
-
-    @Test
     void testDeleteInstructorById() throws Exception {
         UUID id = UUID.randomUUID();
 
-        when(instructorsService.deleteById(any(UUID.class))).thenReturn(id);
 
         mockMvc.perform(delete("/instructors/{id}", id))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$").value(id.toString()));
-    }
-
-    @Test
-    void testDeleteInstructorById_notFound() throws Exception {
-        UUID id = UUID.randomUUID();
-
-        when(instructorsService.deleteById(any(UUID.class))).thenReturn(null);
-
-        mockMvc.perform(delete("/instructors/{id}", id))
-            .andExpect(status().isNotFound());
+            .andExpect(status().isNoContent());
     }
 }

@@ -46,7 +46,7 @@ public class InstructorsService {
             .orElseThrow(() -> ResourceNotFoundException.of(RESOURECE_NOT_FOUND));
     }
 
-    public UUID deleteById(UUID id) {
+    public void deleteById(UUID id) {
         repository.findById(id)
             .ifPresentOrElse(
                 instructorEntity -> repository.deleteById(id), () -> {
