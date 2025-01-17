@@ -23,7 +23,7 @@ import org.redcode.bookanddriveservice.exceptions.ResourceNotFoundException;
 import org.redcode.bookanddriveservice.trainees.domain.Trainee;
 import org.redcode.bookanddriveservice.trainees.model.TraineeEntity;
 import org.redcode.bookanddriveservice.trainees.repository.TraineesRepository;
-import org.redcode.bookanddriveservice.trainees.utils.DataGenerator;
+import org.redcode.bookanddriveservice.trainees.utils.TraineesDataGenerator;
 
 class TraineesServiceTest {
 
@@ -40,8 +40,8 @@ class TraineesServiceTest {
 
     @Test
     void testCreate() {
-        Trainee trainee = DataGenerator.generateTrainee();
-        TraineeEntity savedTraineeEntity = DataGenerator.generateTraineeEntity();
+        Trainee trainee = TraineesDataGenerator.generateTrainee();
+        TraineeEntity savedTraineeEntity = TraineesDataGenerator.generateTraineeEntity();
 
         when(traineesRepository.save(any(TraineeEntity.class))).thenReturn(savedTraineeEntity);
 
@@ -53,8 +53,8 @@ class TraineesServiceTest {
 
     @Test
     void testGetTrainees() {
-        TraineeEntity traineeEntity = DataGenerator.generateTraineeEntity();
-        Trainee trainee = DataGenerator.generateTrainee();
+        TraineeEntity traineeEntity = TraineesDataGenerator.generateTraineeEntity();
+        Trainee trainee = TraineesDataGenerator.generateTrainee();
 
         when(traineesRepository.findAll()).thenReturn(List.of(traineeEntity));
 
@@ -68,8 +68,8 @@ class TraineesServiceTest {
     @Test
     void testFindById() {
         UUID id = UUID.randomUUID();
-        Trainee trainee = DataGenerator.generateTrainee();
-        TraineeEntity traineeEntity = DataGenerator.generateTraineeEntity();
+        Trainee trainee = TraineesDataGenerator.generateTrainee();
+        TraineeEntity traineeEntity = TraineesDataGenerator.generateTraineeEntity();
 
         when(traineesRepository.findById(id)).thenReturn(Optional.of(traineeEntity));
 
@@ -82,9 +82,9 @@ class TraineesServiceTest {
     @Test
     void testUpdateById() {
         UUID id = UUID.randomUUID();
-        Trainee trainee = DataGenerator.generateTrainee();
+        Trainee trainee = TraineesDataGenerator.generateTrainee();
         Trainee updatedTrainee = trainee;
-        TraineeEntity traineeEntity = DataGenerator.generateTraineeEntity();
+        TraineeEntity traineeEntity = TraineesDataGenerator.generateTraineeEntity();
         TraineeEntity updatedTraineeEntity = traineeEntity;
         updatedTrainee.setName("Updated Name");
         updatedTraineeEntity.setName("Updated Name");

@@ -55,7 +55,7 @@ class ITCarControllerTest {
     @Test
     void shouldFindAllCars() {
         addCar();
-        String url = "/cars"; // Ekstrakcja zmiennej na adres URL
+        String url = "/cars";
         List<Car> cars = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Car>>() {
         }).getBody();
 

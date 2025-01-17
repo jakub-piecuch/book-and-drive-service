@@ -23,7 +23,7 @@ import org.redcode.bookanddriveservice.exceptions.ResourceNotFoundException;
 import org.redcode.bookanddriveservice.instructors.domain.Instructor;
 import org.redcode.bookanddriveservice.instructors.model.InstructorEntity;
 import org.redcode.bookanddriveservice.instructors.repository.InstructorsRepository;
-import org.redcode.bookanddriveservice.instructors.utils.DataGenerator;
+import org.redcode.bookanddriveservice.instructors.utils.InstructorsDataGenerator;
 
 class InstructorsServiceTest {
 
@@ -40,8 +40,8 @@ class InstructorsServiceTest {
 
     @Test
     void testCreate() {
-        Instructor instructor = DataGenerator.generateInstructor();
-        InstructorEntity savedInstructorEntity = DataGenerator.generateInstructorEntity();
+        Instructor instructor = InstructorsDataGenerator.generateInstructor();
+        InstructorEntity savedInstructorEntity = InstructorsDataGenerator.generateInstructorEntity();
 
         when(instructorsRepository.save(any(InstructorEntity.class))).thenReturn(savedInstructorEntity);
 
@@ -53,8 +53,8 @@ class InstructorsServiceTest {
 
     @Test
     void testGetInstructors() {
-        InstructorEntity instructorEntity = DataGenerator.generateInstructorEntity();
-        Instructor instructor = DataGenerator.generateInstructor();
+        InstructorEntity instructorEntity = InstructorsDataGenerator.generateInstructorEntity();
+        Instructor instructor = InstructorsDataGenerator.generateInstructor();
 
         when(instructorsRepository.findAll()).thenReturn(List.of(instructorEntity));
 
@@ -68,8 +68,8 @@ class InstructorsServiceTest {
     @Test
     void testFindById() {
         UUID id = UUID.randomUUID();
-        Instructor instructor = DataGenerator.generateInstructor();
-        InstructorEntity instructorEntity = DataGenerator.generateInstructorEntity();
+        Instructor instructor = InstructorsDataGenerator.generateInstructor();
+        InstructorEntity instructorEntity = InstructorsDataGenerator.generateInstructorEntity();
 
         when(instructorsRepository.findById(id)).thenReturn(Optional.of(instructorEntity));
 
@@ -82,9 +82,9 @@ class InstructorsServiceTest {
     @Test
     void testUpdateById() {
         UUID id = UUID.randomUUID();
-        Instructor instructor = DataGenerator.generateInstructor();
+        Instructor instructor = InstructorsDataGenerator.generateInstructor();
         Instructor updatedInstructor = instructor;
-        InstructorEntity instructorEntity = DataGenerator.generateInstructorEntity();
+        InstructorEntity instructorEntity = InstructorsDataGenerator.generateInstructorEntity();
         InstructorEntity updatedInstructorEntity = instructorEntity;
         updatedInstructor.setName("Updated Name");
         updatedInstructorEntity.setName("Updated Name");

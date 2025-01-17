@@ -6,7 +6,7 @@ import org.redcode.bookanddriveservice.trainees.domain.Trainee;
 import org.redcode.bookanddriveservice.trainees.model.TraineeEntity;
 
 @UtilityClass
-public class DataGenerator {
+public class TraineesDataGenerator {
 
     private static final UUID TRAINEE_ID = UUID.randomUUID();
     private static final String NAME = "John";

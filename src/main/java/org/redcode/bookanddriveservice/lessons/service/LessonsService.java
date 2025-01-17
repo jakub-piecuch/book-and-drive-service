@@ -33,7 +33,7 @@ public class LessonsService {
 
         if (startTime.isAfter(endTime)) {
             log.error("Start time: {}, cannot be greater than end time: {}.", startTime, endTime);
-            throw ValidationException.of("invalid_dates", "Start time cannot be greater than end time");
+            throw ValidationException.of("Start time cannot be greater than end time", "invalid_dates");
         }
 
         LessonEntity lessonEntity = LessonEntity.from(lesson);

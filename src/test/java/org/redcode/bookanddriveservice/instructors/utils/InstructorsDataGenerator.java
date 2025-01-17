@@ -6,7 +6,7 @@ import org.redcode.bookanddriveservice.instructors.domain.Instructor;
 import org.redcode.bookanddriveservice.instructors.model.InstructorEntity;
 
 @UtilityClass
-public class DataGenerator {
+public class InstructorsDataGenerator {
 
     private static final UUID INSTRUCTOR_ID = UUID.randomUUID();
     private static final String NAME = "Jan";
