@@ -1,8 +1,11 @@
 package org.redcode.bookanddriveservice.trainees.service;
 
+import static org.redcode.bookanddriveservice.exceptions.ResourceNotFoundException.RESOURECE_NOT_FOUND;
+
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.redcode.bookanddriveservice.exceptions.ResourceNotFoundException;
 import org.redcode.bookanddriveservice.trainees.domain.Trainee;
 import org.redcode.bookanddriveservice.trainees.model.TraineeEntity;
 import org.redcode.bookanddriveservice.trainees.repository.TraineesRepository;
@@ -36,21 +39,20 @@ public class TraineesService {
     public Trainee updateById(UUID id, Trainee trainee) {
         return repository.findById(id)
             .map(traineeEntity -> {
-                TraineeEntity updatedTraineeEntity = TraineeEntity.from(trainee);
-                updatedTraineeEntity.setId(id);
+                TraineeEntity updatedTraineeEntity = TraineeEntity.update(traineeEntity, trainee);
                 TraineeEntity savedTrainee = repository.save(updatedTraineeEntity);
                 return Trainee.from(savedTrainee);
             })
-            .orElse(null);
+            .orElseThrow(() -> ResourceNotFoundException.of(RESOURECE_NOT_FOUND));
     }
 
-    public UUID deleteById(UUID id) {
-        return repository.findById(id)
-            .map(traineeEntity -> {
-                repository.deleteById(id);
-                return id;
-            })
-            .orElse(null);
+    public void deleteById(UUID id) {
+        repository.findById(id)
+            .ifPresentOrElse(
+                traineeEntity -> repository.deleteById(id), () -> {
+                    throw ResourceNotFoundException.of(RESOURECE_NOT_FOUND);
+                }
+            );
     }
 
     public boolean existsById(UUID id) {

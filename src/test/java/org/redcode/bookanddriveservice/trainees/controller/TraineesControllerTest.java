@@ -108,36 +108,11 @@ class TraineesControllerTest {
     }
 
     @Test
-    void testUpdateTraineeById_notFound() throws Exception {
-        UUID id = UUID.randomUUID();
-        Trainee trainee = new Trainee(id, "Jan", "Kowalski", "abc@gmail.com");
-
-        when(traineesService.updateById(any(UUID.class), any(Trainee.class))).thenReturn(null);
-
-        mockMvc.perform(put("/trainees/{id}", id)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"Jan\",\"sureName\":\"Kowalski\",\"email\":\"abc@gmail.com\"}"))
-            .andExpect(status().isNotFound());
-    }
-
-    @Test
     void testDeleteTraineeById() throws Exception {
         UUID id = UUID.randomUUID();
 
-        when(traineesService.deleteById(any(UUID.class))).thenReturn(id);
-
         mockMvc.perform(delete("/trainees/{id}", id))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$").value(id.toString()));
+            .andExpect(status().isNoContent());
     }
 
-    @Test
-    void testDeleteTraineeById_notFound() throws Exception {
-        UUID id = UUID.randomUUID();
-
-        when(traineesService.deleteById(any(UUID.class))).thenReturn(null);
-
-        mockMvc.perform(delete("/trainees/{id}", id))
-            .andExpect(status().isNotFound());
-    }
 }

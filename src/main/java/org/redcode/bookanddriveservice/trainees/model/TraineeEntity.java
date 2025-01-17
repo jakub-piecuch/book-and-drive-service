@@ -38,4 +38,13 @@ public class TraineeEntity {
             .email(trainee.getEmail())
             .build();
     }
+
+    public static TraineeEntity update(TraineeEntity traineeEntity, Trainee trainee) {
+        return TraineeEntity.builder()
+            .id(traineeEntity.getId())
+            .name(trainee.getName())
+            .sureName(trainee.getSureName())
+            .email(trainee.getEmail())
+            .build();
+    }
 }

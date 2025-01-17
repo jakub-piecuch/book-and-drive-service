@@ -62,18 +62,16 @@ public class TraineesController {
     @PutMapping("/{id}")
     public ResponseEntity<TraineeResponse> updateTraineeById(@PathVariable UUID id, @RequestBody UpdateTraineeRequest request) {
         log.info("Updating Trainee by id: {}", id);
-        Trainee car = Trainee.from(request);
-        return Optional.ofNullable(traineesService.updateById(id, car))
-            .map(TraineeResponse::from)
-            .map(ResponseEntity::ok)
-            .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        Trainee trainee = Trainee.from(request);
+        TraineeResponse response = TraineeResponse.from(traineesService.updateById(id, trainee));
+
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<UUID> deleteTraineeById(@PathVariable UUID id) {
         log.info("Deleting Trainee by id: {}", id);
-        return Optional.ofNullable(traineesService.deleteById(id))
-            .map(ResponseEntity::ok)
-            .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        traineesService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
