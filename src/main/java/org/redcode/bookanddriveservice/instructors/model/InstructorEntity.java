@@ -38,4 +38,13 @@ public class InstructorEntity {
             .email(instructor.getEmail())
             .build();
     }
+
+    public static InstructorEntity update(InstructorEntity instructorEntity, Instructor instructor) {
+        return InstructorEntity.builder()
+            .id(instructorEntity.getId())
+            .name(instructor.getName())
+            .sureName(instructor.getSureName())
+            .email(instructor.getEmail())
+            .build();
+    }
 }

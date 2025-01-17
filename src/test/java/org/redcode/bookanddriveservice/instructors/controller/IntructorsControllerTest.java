@@ -32,7 +32,7 @@ class InstructorsControllerTest {
     private MockMvc mockMvc;
 
     @InjectMocks
-    private IntructorsController instructorsController; // InstructorsController with mocked dependencies
+    private InstructorsController instructorsController; // InstructorsController with mocked dependencies
 
     @BeforeEach
     void setUp() {

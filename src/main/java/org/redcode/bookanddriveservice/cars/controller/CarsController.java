@@ -62,6 +62,7 @@ class CarsController {
 
     @PutMapping("/{id}")
     public ResponseEntity<CarResponse> updateCarById(@PathVariable UUID id, @RequestBody UpdateCarRequest request) {
+        log.info("Updating Car by id: {}", id);
         Car car = Car.from(request);
         CarResponse response = CarResponse.from(carsService.updateById(id,car));
 
@@ -70,6 +71,7 @@ class CarsController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCarById(@PathVariable UUID id) {
+        log.info("Deleting Car by id: {}", id);
         carsService.deleteById(id);
         return ResponseEntity.noContent().build();
     }

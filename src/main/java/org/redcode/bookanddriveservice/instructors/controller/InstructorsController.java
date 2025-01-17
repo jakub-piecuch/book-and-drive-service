@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/instructors")
 @RequiredArgsConstructor
-public class IntructorsController {
+public class InstructorsController {
 
     private final InstructorsService instructorsService;
 
@@ -62,18 +62,16 @@ public class IntructorsController {
     public ResponseEntity<InstructorResponse> updateInstructorById(@PathVariable UUID id, @RequestBody UpdateInstructorRequest request) {
         log.info("Updating Instructor by id: {}", id);
         Instructor car = Instructor.from(request);
-        return Optional.ofNullable(instructorsService.updateById(id, car))
-            .map(InstructorResponse::from)
-            .map(ResponseEntity::ok)
-            .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        InstructorResponse response = InstructorResponse.from(instructorsService.updateById(id, car));
+
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<UUID> deleteInstructorById(@PathVariable UUID id) {
         log.info("Deleting Instructor by id: {}", id);
-        return Optional.ofNullable(instructorsService.deleteById(id))
-            .map(ResponseEntity::ok)
-            .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        instructorsService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
 
