@@ -1,6 +1,5 @@
 package org.redcode.bookanddriveservice.exceptions;
 
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -35,21 +34,21 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.valueOf((exception.getStatusCode().value())));
     }
 
-    @ExceptionHandler(SQLException.class)
-    public ResponseEntity<ErrorDetails> handleSqlException(
-        Exception ex, WebRequest request) {
-        log.error("Request: {}, has failed with exception.", request, ex);
-
-        SQLException exception = (SQLException) ex;
-        ErrorDetails errorDetails = ErrorDetails.builder()
-            .timestamp(LocalDateTime.now())
-            .status(exception.getErrorCode())
-            .reason(exception.getSQLState())
-            .message(exception.getMessage())
-            .build();
-
-        return new ResponseEntity<>(errorDetails, HttpStatus.valueOf(exception.getErrorCode()));
-    }
+//    @ExceptionHandler(SQLException.class)
+//    public ResponseEntity<ErrorDetails> handleSqlException(
+//        Exception ex, WebRequest request) {
+//        log.error("Request: {}, has failed with exception.", request, ex);
+//
+//        SQLException exception = (SQLException) ex;
+//        ErrorDetails errorDetails = ErrorDetails.builder()
+//            .timestamp(LocalDateTime.now())
+//            .status(HttpStatus.BAD_REQUEST.value())
+//            .reason(HttpStatus.BAD_GATEWAY.getReasonPhrase())
+//            .message(exception.getMessage())
+//            .build();
+//
+//        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+//    }
 
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<ErrorDetails> handleValidationException(
@@ -93,6 +92,18 @@ public class GlobalExceptionHandler {
             .build();
 
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(DuplicateSchemaException.class)
+    public ResponseEntity<ErrorDetails> handleDuplicateSchemaException(DuplicateSchemaException ex) {
+        ErrorDetails errorDetails = ErrorDetails.builder()
+            .timestamp(LocalDateTime.now())
+            .status(HttpStatus.BAD_REQUEST.value())
+            .reason(HttpStatus.BAD_REQUEST.getReasonPhrase())
+            .message(ex.getMessage())
+            .build();
+
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
     //     Handle Generic Exceptions
