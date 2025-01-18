@@ -2,19 +2,22 @@ package org.redcode.bookanddriveservice.tenants.resolver;
 
 import java.util.Map;
 import java.util.Objects;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.redcode.bookanddriveservice.tenants.context.TenantContext;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class TenantIdentifierResolver implements CurrentTenantIdentifierResolver, HibernatePropertiesCustomizer {
 
     @Override
     public String resolveCurrentTenantIdentifier() {
         //maybe define master schema and default to that instead.
-        return Objects.requireNonNull(TenantContext.getTenantId(), "dupa");
+        log.info("Tenant set to {}", TenantContext.getTenantId());
+        return Objects.requireNonNullElse(TenantContext.getTenantId(), "PUBLIC");
     }
 
     @Override

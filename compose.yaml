@@ -1,9 +1,9 @@
 services:
   postgres:
-    image: 'postgres:latest'
+    image: 'postgres:17'
     environment:
       - 'POSTGRES_DB=bookanddrive'
       - 'POSTGRES_PASSWORD=b00kanddrive!'
       - 'POSTGRES_USER=bookanddrive'
     ports:
-      - '5432'
+      - '5431'

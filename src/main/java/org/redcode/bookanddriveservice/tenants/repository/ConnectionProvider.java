@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Map;
 import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.dialect.Dialect;
 import org.hibernate.engine.jdbc.connections.spi.DatabaseConnectionInfo;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
@@ -20,7 +21,7 @@ public class ConnectionProvider implements MultiTenantConnectionProvider, Hibern
 
     @Override
     public Connection getAnyConnection() throws SQLException {
-        return getConnection("bookanddrive");
+        return getConnection("PUBLIC");
     }
 
     @Override
@@ -37,13 +38,13 @@ public class ConnectionProvider implements MultiTenantConnectionProvider, Hibern
 
     @Override
     public void releaseConnection(Object o, Connection connection) throws SQLException {
-        connection.setSchema("bookanddrive");
+        connection.setSchema("PUBLIC");
         connection.close();
     }
 
     @Override
     public boolean supportsAggressiveRelease() {
-        return false;
+        return true;
     }
 
     @Override
@@ -57,12 +58,12 @@ public class ConnectionProvider implements MultiTenantConnectionProvider, Hibern
     }
 
     @Override
-    public <T> T unwrap(@NonNull Class<T> aClass) {
-        return (T) aClass;
+    public <T> T unwrap(@NonNull Class<T> unwrapType) {
+        throw new UnsupportedOperationException("Unimplemented method 'unwrap'.");
     }
 
     @Override
     public void customize(Map<String, Object> hibernateProperties) {
-
+        hibernateProperties.put(AvailableSettings.MULTI_TENANT_CONNECTION_PROVIDER, this);
     }
 }
