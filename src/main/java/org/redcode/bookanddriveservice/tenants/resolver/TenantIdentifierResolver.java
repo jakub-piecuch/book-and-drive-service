@@ -17,7 +17,7 @@ public class TenantIdentifierResolver implements CurrentTenantIdentifierResolver
     public String resolveCurrentTenantIdentifier() {
         //maybe define master schema and default to that instead.
         log.info("Tenant set to {}", TenantContext.getTenantId());
-        return Objects.requireNonNullElse(TenantContext.getTenantId(), "PUBLIC");
+        return Objects.requireNonNullElse(TenantContext.getTenantId(), "public");
     }
 
     @Override

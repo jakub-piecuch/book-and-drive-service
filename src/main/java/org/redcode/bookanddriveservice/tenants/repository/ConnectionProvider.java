@@ -21,7 +21,7 @@ public class ConnectionProvider implements MultiTenantConnectionProvider, Hibern
 
     @Override
     public Connection getAnyConnection() throws SQLException {
-        return getConnection("PUBLIC");
+        return getConnection("public");
     }
 
     @Override
@@ -38,7 +38,7 @@ public class ConnectionProvider implements MultiTenantConnectionProvider, Hibern
 
     @Override
     public void releaseConnection(Object o, Connection connection) throws SQLException {
-        connection.setSchema("PUBLIC");
+        connection.setSchema("public");
         connection.close();
     }
 

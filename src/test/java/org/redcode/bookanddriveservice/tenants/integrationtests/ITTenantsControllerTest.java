@@ -26,7 +26,7 @@ class ITTenantsControllerTest {
 
     @Container
     @ServiceConnection
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres");
 
     @Autowired
     TestRestTemplate restTemplate;
