@@ -22,6 +22,7 @@ public class SchemaRepository {
         entityManager.createNativeQuery(sql).executeUpdate();
     }
 
+
     public boolean doesSchemaExist(String schemaName) {
         String query = "SELECT COUNT(*) FROM information_schema.schemata WHERE schema_name = :schemaName";
         Long count = (Long) entityManager.createNativeQuery(query)
