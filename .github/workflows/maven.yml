@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '21'  # Set the Java version to 23
-          distribution: 'amazon'
+          distribution: 'corretto'
 
       - name: Cache Maven dependencies
         uses: actions/cache@v2
