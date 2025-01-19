@@ -2,7 +2,7 @@ spring:
   application:
     name: book-and-drive-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/bookanddrive
+    url: jdbc:postgresql://localhost:5433/bookanddrive
     username: bookanddrive
     password: b00kanddrive!
     driver-class-name: org.postgresql.Driver
@@ -12,7 +12,9 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
+  flyway:
+    locations: classpath:db/migration
 
 logging:
   level:
@@ -23,6 +25,9 @@ logging:
           descriptor:
             sql: TRACE
 
+multitenancy:
+  http:
+    header: X-Tenant-Id
 
 
 
