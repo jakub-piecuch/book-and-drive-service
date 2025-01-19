@@ -27,7 +27,6 @@ CREATE TABLE lesson (
     trainee_id UUID NOT NULL,
     car_id UUID,
 
-    -- Definicje kluczy obcych
     CONSTRAINT fk_instructor FOREIGN KEY (instructor_id) REFERENCES instructor (id) ON DELETE CASCADE,
     CONSTRAINT fk_trainee FOREIGN KEY (trainee_id) REFERENCES trainee (id) ON DELETE CASCADE,
     CONSTRAINT fk_car FOREIGN KEY (car_id) REFERENCES car (id) ON DELETE SET NULL
