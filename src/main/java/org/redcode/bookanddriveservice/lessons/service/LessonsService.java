@@ -16,8 +16,7 @@ import org.redcode.bookanddriveservice.lessons.model.LessonEntity;
 import org.redcode.bookanddriveservice.lessons.repository.LessonCustomSearchRepository;
 import org.redcode.bookanddriveservice.lessons.repository.LessonSearchCriteria;
 import org.redcode.bookanddriveservice.lessons.repository.LessonsRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
+import org.redcode.bookanddriveservice.page.PageResponse;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -52,7 +51,7 @@ public class LessonsService {
         return Lesson.from(lessonEntity);
     }
 
-    public Page<Lesson> findByCriteria(LessonSearchCriteria criteria, PageRequest pageRequest) {
+    public PageResponse<Lesson> findByCriteria(LessonSearchCriteria criteria, PageRequest pageRequest) {
         List<Lesson> lessons = lessonCustomRepository.findAllByCriteria(criteria, pageRequest).stream()
             .map(Lesson::from)
             .toList();
@@ -61,7 +60,14 @@ public class LessonsService {
         long lessonsCount = lessonCustomRepository.getTotalCount(criteria);
         log.info("Count lessons by criteria: {}", lessonsCount);
 
-        return new PageImpl<>(lessons, pageRequest, lessonsCount);
+        var totalPages = (int) Math.ceil((double) lessonsCount / pageRequest.getPageSize());
+
+        return PageResponse.of(lessons, new PageResponse.PageMetadata(
+            pageRequest.getPageSize(),
+            pageRequest.getPageNumber(),
+            lessonsCount,
+            totalPages
+        ));
     }
 
     public void deleteById(UUID id) {

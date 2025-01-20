@@ -1,6 +1,7 @@
 package org.redcode.bookanddriveservice.lessons.integrationtests;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.redcode.bookanddriveservice.instructors.utils.InstructorsDataGenerator.generateInstructorEntity;
 import static org.redcode.bookanddriveservice.lessons.utils.LessonsDataGenerator.generateLessonEntity;
 import static org.redcode.bookanddriveservice.trainees.utils.TraineesDataGenerator.generateTraineeEntity;
@@ -9,6 +10,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.redcode.bookanddriveservice.instructors.model.InstructorEntity;
@@ -23,9 +25,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.jdbc.JdbcTestUtils;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.util.UriComponentsBuilder;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -77,20 +84,26 @@ class ITLessonsControllerTest {
         assertThat(response.carId()).isNull();
     }
 
-//    @Test
-//    void shouldNotCreateLesson_duplicate() {
-//        var lesson = insertLessonInDb();
-//        CreateLessonRequest request = CreateLessonRequest.builder()
-//            .startTime(LocalDateTime.of(2025,12,12,12,12))
-//            .endTime(LocalDateTime.of(2025,12,12,13,13))
-//            .instructorId(lesson.getInstructor().getId())
-//            .traineeId(lesson.getTrainee().getId())
-//            .build();
-//
-//        assertThrows(Exception.class, () -> {
-//            restTemplate.postForEntity("/api/lessons", request, LessonResponse.class);
-//        });
-//    }
+    @Test
+    void testFetchLessonsByCriteria() {
+        // Build the URL with query parameters (example: page=0, size=10, filter=someCriteria)
+        String url = UriComponentsBuilder.fromUriString("/api/lessons")
+            .queryParam("page", 0)
+            .queryParam("size", 10)
+            .toUriString();
+
+        // Send the GET request and get the response
+        ResponseEntity<PageImpl<LessonResponse>> response = restTemplate.exchange(
+            url, HttpMethod.GET, null,
+            new ParameterizedTypeReference<>() {}
+        );
+
+        // Assert the response is not null and contains expected data
+        assertNotNull(response);
+        Assertions.assertTrue(response.getStatusCode().is2xxSuccessful());
+        assertNotNull(response.getBody());
+        Assertions.assertFalse(response.getBody().getContent().isEmpty()); // Assuming the result list isn't empty
+    }
 
     private LessonEntity insertLessonInDb() {
         var instructor = createInstructorEntity();
