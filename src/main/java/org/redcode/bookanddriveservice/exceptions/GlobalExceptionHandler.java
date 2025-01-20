@@ -94,8 +94,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(DuplicateSchemaException.class)
-    public ResponseEntity<ErrorDetails> handleDuplicateSchemaException(DuplicateSchemaException ex) {
+    @ExceptionHandler(DuplicateTenantException.class)
+    public ResponseEntity<ErrorDetails> handleDuplicateSchemaException(DuplicateTenantException ex) {
         ErrorDetails errorDetails = ErrorDetails.builder()
             .timestamp(LocalDateTime.now())
             .status(HttpStatus.BAD_REQUEST.value())
@@ -112,6 +112,7 @@ public class GlobalExceptionHandler {
         Exception ex, WebRequest request) {
 
         log.error("Request: {}, has failed with exception.", request, ex);
+
 
         ErrorDetails errorDetails = ErrorDetails.builder()
             .timestamp(LocalDateTime.now())
