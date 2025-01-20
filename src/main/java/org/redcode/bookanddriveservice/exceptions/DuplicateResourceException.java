@@ -3,11 +3,11 @@ package org.redcode.bookanddriveservice.exceptions;
 import lombok.Getter;
 
 @Getter
-public class DuplicateTenantException extends RuntimeException {
+public class DuplicateResourceException extends RuntimeException {
 
     private final String reason;
 
-    public DuplicateTenantException(
+    public DuplicateResourceException(
         String message,
         String reason
     ) {
@@ -15,8 +15,8 @@ public class DuplicateTenantException extends RuntimeException {
         this.reason = reason;
     }
 
-    public static DuplicateTenantException of(String message, String reason) {
-        return new DuplicateTenantException(
+    public static DuplicateResourceException of(String message, String reason) {
+        return new DuplicateResourceException(
             message,
             reason
         );

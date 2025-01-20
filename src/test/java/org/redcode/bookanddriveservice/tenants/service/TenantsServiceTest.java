@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.redcode.bookanddriveservice.exceptions.DuplicateTenantException;
+import org.redcode.bookanddriveservice.exceptions.DuplicateResourceException;
 import org.redcode.bookanddriveservice.migration.provider.MigrationProvider;
 import org.redcode.bookanddriveservice.tenants.domain.Tenant;
 import org.redcode.bookanddriveservice.tenants.model.TenantEntity;
@@ -90,7 +90,7 @@ class TenantsServiceTest {
         doThrow(exception).when(tenantRepository).save(any(TenantEntity.class));
 
         // Act & Assert
-        DuplicateTenantException thrown = assertThrows(DuplicateTenantException.class,
+        DuplicateResourceException thrown = assertThrows(DuplicateResourceException.class,
             () -> tenantsService.createTenant(tenant));
 
         assertNotNull(thrown);
