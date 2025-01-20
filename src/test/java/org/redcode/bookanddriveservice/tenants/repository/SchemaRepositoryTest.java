@@ -44,7 +44,7 @@ class SchemaRepositoryTest {
         schemaRepository.createSchema(schemaName);
 
         // Then
-        verify(entityManager).createNativeQuery("CREATE SCHEMA " + schemaName);
+        verify(entityManager).createNativeQuery("CREATE SCHEMA IF NOT EXISTS " + schemaName);
         verify(query).executeUpdate(); // Verifies that the query was executed
     }
 
@@ -76,7 +76,7 @@ class SchemaRepositoryTest {
         });
 
         // Verify SQL execution
-        verify(entityManager, times(2)).createNativeQuery("CREATE SCHEMA " + schemaName);
+        verify(entityManager, times(2)).createNativeQuery("CREATE SCHEMA IF NOT EXISTS " + schemaName);
         verify(query, times(2)).executeUpdate();
     }
 }

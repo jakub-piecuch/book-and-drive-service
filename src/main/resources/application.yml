@@ -14,7 +14,9 @@ spring:
     hibernate:
       ddl-auto: validate
   flyway:
-    locations: classpath:db/migration
+    baselineOnMigrate: true
+    locations: classpath:db/migration/default, classpath:db/migration/tenants
+    schema: public
 
 logging:
   level:

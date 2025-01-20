@@ -1,10 +1,13 @@
 package org.redcode.bookanddriveservice.exceptions;
 
-public class DuplicateSchemaException extends RuntimeException {
+import lombok.Getter;
+
+@Getter
+public class DuplicateTenantException extends RuntimeException {
 
     private final String reason;
 
-    public DuplicateSchemaException(
+    public DuplicateTenantException(
         String message,
         String reason
     ) {
@@ -12,8 +15,8 @@ public class DuplicateSchemaException extends RuntimeException {
         this.reason = reason;
     }
 
-    public static DuplicateSchemaException of(String message, String reason) {
-        return new DuplicateSchemaException(
+    public static DuplicateTenantException of(String message, String reason) {
+        return new DuplicateTenantException(
             message,
             reason
         );

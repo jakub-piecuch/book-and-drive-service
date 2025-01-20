@@ -18,16 +18,7 @@ public class SchemaRepository {
             throw ValidationException.of("Schema name cannot be null or empty", "empty_value");
         }
 
-        String sql = "CREATE SCHEMA " + schemaName;
+        String sql = "CREATE SCHEMA IF NOT EXISTS " + schemaName;
         entityManager.createNativeQuery(sql).executeUpdate();
-    }
-
-
-    public boolean doesSchemaExist(String schemaName) {
-        String query = "SELECT COUNT(*) FROM information_schema.schemata WHERE schema_name = :schemaName";
-        Long count = (Long) entityManager.createNativeQuery(query)
-            .setParameter("schemaName", schemaName)
-            .getSingleResult();
-        return count > 0;
     }
 }
