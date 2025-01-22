@@ -7,15 +7,16 @@ import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.redcode.bookanddriveservice.exceptions.DuplicateResourceException;
 import org.redcode.bookanddriveservice.exceptions.ResourceNotFoundException;
 import org.redcode.bookanddriveservice.exceptions.ValidationException;
+import org.redcode.bookanddriveservice.instructors.service.InstructorsService;
 import org.redcode.bookanddriveservice.lessons.domain.Lesson;
 import org.redcode.bookanddriveservice.lessons.model.LessonEntity;
 import org.redcode.bookanddriveservice.lessons.repository.LessonCustomSearchRepository;
 import org.redcode.bookanddriveservice.lessons.repository.LessonSearchCriteria;
 import org.redcode.bookanddriveservice.lessons.repository.LessonsRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
+import org.redcode.bookanddriveservice.page.PageResponse;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +25,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LessonsService {
 
+    public static final String DUPLICATE_KEY_VALUE_VIOLATES_UNIQUE_CONSTRAINT = "duplicate key value violates unique constraint";
     private final LessonsRepository lessonsRepository;
     private final LessonCustomSearchRepository lessonCustomRepository;
+    private final InstructorsService instructorsService;
 
     public Lesson create(Lesson lesson) {
         LocalDateTime startTime = lesson.getStartTime();
@@ -37,12 +40,18 @@ public class LessonsService {
         }
 
         LessonEntity lessonEntity = LessonEntity.from(lesson);
-        LessonEntity savedLesson = lessonsRepository.save(lessonEntity);
+        try {
+            lessonEntity = lessonsRepository.save(lessonEntity);
+        } catch (Exception e) {
+            if (e.getMessage().contains(DUPLICATE_KEY_VALUE_VIOLATES_UNIQUE_CONSTRAINT)) {
+                throw DuplicateResourceException.of("Cannot create duplicate lesson", "duplicate_value");
+            }
+        }
 
-        return Lesson.from(savedLesson);
+        return Lesson.from(lessonEntity);
     }
 
-    public Page<Lesson> findByCriteria(LessonSearchCriteria criteria, PageRequest pageRequest) {
+    public PageResponse<Lesson> findByCriteria(LessonSearchCriteria criteria, PageRequest pageRequest) {
         List<Lesson> lessons = lessonCustomRepository.findAllByCriteria(criteria, pageRequest).stream()
             .map(Lesson::from)
             .toList();
@@ -51,7 +60,14 @@ public class LessonsService {
         long lessonsCount = lessonCustomRepository.getTotalCount(criteria);
         log.info("Count lessons by criteria: {}", lessonsCount);
 
-        return new PageImpl<>(lessons, pageRequest, lessonsCount);
+        var totalPages = (int) Math.ceil((double) lessonsCount / pageRequest.getPageSize());
+
+        return PageResponse.of(lessons, new PageResponse.PageMetadata(
+            pageRequest.getPageNumber(),
+            pageRequest.getPageSize(),
+            lessonsCount,
+            totalPages
+        ));
     }
 
     public void deleteById(UUID id) {

@@ -10,7 +10,7 @@ import org.redcode.bookanddriveservice.lessons.controller.dto.LessonResponse;
 import org.redcode.bookanddriveservice.lessons.domain.Lesson;
 import org.redcode.bookanddriveservice.lessons.repository.LessonSearchCriteria;
 import org.redcode.bookanddriveservice.lessons.service.LessonsService;
-import org.springframework.data.domain.Page;
+import org.redcode.bookanddriveservice.page.PageResponse;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/lessons")
+@RequestMapping("/api/lessons")
 @RequiredArgsConstructor
 public class LessonsController {
 
@@ -42,7 +42,7 @@ public class LessonsController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<LessonResponse>> fetchAllByCriteria(
+    public ResponseEntity<PageResponse<LessonResponse>> fetchAllByCriteria(
         @RequestParam (required = false) LocalDateTime startDateTime,
         @RequestParam (required = false) LocalDateTime endDateTime,
         @RequestParam (required = false) UUID instructorId,
@@ -58,10 +58,9 @@ public class LessonsController {
         PageRequest pageRequest = PageRequest.of(page, limit);
 
         log.info("Fetching all Lessons by criteria: {}.", criteria);
-        Page<LessonResponse> response = lessonsService.findByCriteria(criteria, pageRequest)
-            .map(LessonResponse::from);
+        PageResponse<Lesson> result = lessonsService.findByCriteria(criteria, pageRequest);
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(PageResponse.from(result, LessonResponse::from));
     }
 
     @DeleteMapping("/{id}")

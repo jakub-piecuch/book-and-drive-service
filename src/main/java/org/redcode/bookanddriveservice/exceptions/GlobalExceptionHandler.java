@@ -34,22 +34,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.valueOf((exception.getStatusCode().value())));
     }
 
-//    @ExceptionHandler(SQLException.class)
-//    public ResponseEntity<ErrorDetails> handleSqlException(
-//        Exception ex, WebRequest request) {
-//        log.error("Request: {}, has failed with exception.", request, ex);
-//
-//        SQLException exception = (SQLException) ex;
-//        ErrorDetails errorDetails = ErrorDetails.builder()
-//            .timestamp(LocalDateTime.now())
-//            .status(HttpStatus.BAD_REQUEST.value())
-//            .reason(HttpStatus.BAD_GATEWAY.getReasonPhrase())
-//            .message(exception.getMessage())
-//            .build();
-//
-//        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
-//    }
-
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<ErrorDetails> handleValidationException(
         Exception ex, WebRequest request
@@ -94,8 +78,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(DuplicateTenantException.class)
-    public ResponseEntity<ErrorDetails> handleDuplicateSchemaException(DuplicateTenantException ex) {
+    @ExceptionHandler(DuplicateResourceException.class)
+    public ResponseEntity<ErrorDetails> handleDuplicateSchemaException(DuplicateResourceException ex) {
         ErrorDetails errorDetails = ErrorDetails.builder()
             .timestamp(LocalDateTime.now())
             .status(HttpStatus.BAD_REQUEST.value())
@@ -112,7 +96,6 @@ public class GlobalExceptionHandler {
         Exception ex, WebRequest request) {
 
         log.error("Request: {}, has failed with exception.", request, ex);
-
 
         ErrorDetails errorDetails = ErrorDetails.builder()
             .timestamp(LocalDateTime.now())

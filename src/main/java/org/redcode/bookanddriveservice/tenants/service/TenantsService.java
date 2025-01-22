@@ -2,7 +2,7 @@ package org.redcode.bookanddriveservice.tenants.service;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.redcode.bookanddriveservice.exceptions.DuplicateTenantException;
+import org.redcode.bookanddriveservice.exceptions.DuplicateResourceException;
 import org.redcode.bookanddriveservice.migration.provider.MigrationProvider;
 import org.redcode.bookanddriveservice.tenants.domain.Tenant;
 import org.redcode.bookanddriveservice.tenants.model.TenantEntity;
@@ -32,7 +32,7 @@ public class TenantsService {
 
         } catch (Exception e) {
             if (e.getCause().toString().contains(DUPLICATE_KEY_VALUE_VIOLATES_UNIQUE_CONSTRAINT)) {
-                throw DuplicateTenantException.of("Tenant " + schemaName + " already exists.", "duplicate_value");
+                throw DuplicateResourceException.of("Tenant " + schemaName + " already exists.", "duplicate_value");
             }
         }
 
