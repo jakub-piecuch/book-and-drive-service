@@ -58,10 +58,9 @@ public class LessonsController {
         PageRequest pageRequest = PageRequest.of(page, limit);
 
         log.info("Fetching all Lessons by criteria: {}.", criteria);
-//        PageResponse<LessonResponse> response = lessonsService.findByCriteria(criteria, pageRequest).getContent().stream()
-//            .map(LessonResponse::from).toList();
+        PageResponse<Lesson> result = lessonsService.findByCriteria(criteria, pageRequest);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(PageResponse.from(result, LessonResponse::from));
     }
 
     @DeleteMapping("/{id}")

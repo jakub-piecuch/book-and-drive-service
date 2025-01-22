@@ -27,7 +27,7 @@ import org.redcode.bookanddriveservice.lessons.model.LessonEntity;
 import org.redcode.bookanddriveservice.lessons.repository.LessonCustomSearchRepository;
 import org.redcode.bookanddriveservice.lessons.repository.LessonSearchCriteria;
 import org.redcode.bookanddriveservice.lessons.repository.LessonsRepository;
-import org.springframework.data.domain.Page;
+import org.redcode.bookanddriveservice.page.PageResponse;
 import org.springframework.data.domain.PageRequest;
 
 class LessonsServiceTest {
@@ -81,21 +81,27 @@ class LessonsServiceTest {
         // Arrange
         LessonSearchCriteria criteria = generateLessonSearchCriteria();
         PageRequest pageRequest = PageRequest.of(0, 10);
-        List<LessonEntity> lessonEntities = List.of(
-            generateLessonEntity()
-        );
+        List<LessonEntity> lessonEntities = List.of(generateLessonEntity());
         List<Lesson> expectedLessons = lessonEntities.stream().map(Lesson::from).toList();
 
+        long totalElements = lessonEntities.size();
+
         when(lessonCustomRepository.findAllByCriteria(criteria, pageRequest)).thenReturn(lessonEntities);
-        when(lessonCustomRepository.getTotalCount(criteria)).thenReturn((long) lessonEntities.size());
+        when(lessonCustomRepository.getTotalCount(criteria)).thenReturn(totalElements);
 
         // Act
-        Page<Lesson> result = lessonsService.findByCriteria(criteria, pageRequest);
+        PageResponse<Lesson> result = lessonsService.findByCriteria(criteria, pageRequest);
 
         // Assert
         assertNotNull(result);
-        assertEquals(expectedLessons.size(), result.getContent().size());
+        assertNotNull(result.getContent());
+        assertNotNull(result.getPage());
+        assertEquals(totalElements, result.getContent().size());
         assertEquals(expectedLessons, result.getContent());
+        assertEquals(0, result.getPage().getPage());
+        assertEquals(10, result.getPage().getLimit());
+        assertEquals(totalElements, result.getPage().getTotalElements());
+        assertEquals(1, result.getPage().getTotalPages());
     }
 
     @Test

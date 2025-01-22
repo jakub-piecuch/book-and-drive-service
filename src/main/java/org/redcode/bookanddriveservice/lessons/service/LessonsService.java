@@ -63,8 +63,8 @@ public class LessonsService {
         var totalPages = (int) Math.ceil((double) lessonsCount / pageRequest.getPageSize());
 
         return PageResponse.of(lessons, new PageResponse.PageMetadata(
-            pageRequest.getPageSize(),
             pageRequest.getPageNumber(),
+            pageRequest.getPageSize(),
             lessonsCount,
             totalPages
         ));

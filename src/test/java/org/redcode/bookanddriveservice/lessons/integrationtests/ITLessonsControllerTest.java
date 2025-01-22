@@ -19,6 +19,7 @@ import org.redcode.bookanddriveservice.lessons.controller.dto.CreateLessonReques
 import org.redcode.bookanddriveservice.lessons.controller.dto.LessonResponse;
 import org.redcode.bookanddriveservice.lessons.model.LessonEntity;
 import org.redcode.bookanddriveservice.lessons.repository.LessonsRepository;
+import org.redcode.bookanddriveservice.page.PageResponse;
 import org.redcode.bookanddriveservice.trainees.model.TraineeEntity;
 import org.redcode.bookanddriveservice.trainees.repository.TraineesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -86,6 +86,8 @@ class ITLessonsControllerTest {
 
     @Test
     void testFetchLessonsByCriteria() {
+        insertLessonInDb();
+
         // Build the URL with query parameters (example: page=0, size=10, filter=someCriteria)
         String url = UriComponentsBuilder.fromUriString("/api/lessons")
             .queryParam("page", 0)
@@ -93,7 +95,7 @@ class ITLessonsControllerTest {
             .toUriString();
 
         // Send the GET request and get the response
-        ResponseEntity<PageImpl<LessonResponse>> response = restTemplate.exchange(
+        ResponseEntity<PageResponse<LessonResponse>> response = restTemplate.exchange(
             url, HttpMethod.GET, null,
             new ParameterizedTypeReference<>() {}
         );

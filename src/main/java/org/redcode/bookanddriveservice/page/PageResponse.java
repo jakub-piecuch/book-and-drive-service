@@ -1,6 +1,7 @@
 package org.redcode.bookanddriveservice.page;
 
 import java.util.List;
+import java.util.function.Function;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,17 +21,23 @@ public class PageResponse<T> {
         return new PageResponse<>(content, page);
     }
 
+    public static <T, R> PageResponse<R> from(PageResponse<T> response, Function<T, R> mapperFunction) {
+        List<R> content = response.getContent().stream().map(mapperFunction).toList();
+        PageMetadata metadata = response.getPage();
+        return PageResponse.of(content, metadata);
+    }
+
     @Setter
     @Getter
     public static class PageMetadata {
-        private int limit;
         private int page;
+        private int limit;
         private long totalElements;
         private long totalPages;
 
-        public PageMetadata(int limit, int page, long totalElements, int totalPages) {
-            this.limit = limit;
+        public PageMetadata(int page, int limit, long totalElements, int totalPages) {
             this.page = page;
+            this.limit = limit;
             this.totalElements = totalElements;
             this.totalPages = totalPages;
         }

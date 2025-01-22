@@ -25,9 +25,8 @@ import org.redcode.bookanddriveservice.instructors.domain.Instructor;
 import org.redcode.bookanddriveservice.lessons.domain.Lesson;
 import org.redcode.bookanddriveservice.lessons.service.LessonsService;
 import org.redcode.bookanddriveservice.lessons.utils.LessonsDataGenerator;
+import org.redcode.bookanddriveservice.page.PageResponse;
 import org.redcode.bookanddriveservice.trainees.domain.Trainee;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -59,7 +58,7 @@ class LessonsControllerTest {
 
         when(lessonsService.create(any(Lesson.class))).thenReturn(lesson);
 
-        mockMvc.perform(post("/lessons").contentType(MediaType.APPLICATION_JSON).content(content))
+        mockMvc.perform(post("/api/lessons").contentType(MediaType.APPLICATION_JSON).content(content))
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.startTime").value(lesson.getStartTime().toString()))
             .andExpect(jsonPath("$.endTime").value(lesson.getEndTime().toString()))
@@ -80,12 +79,17 @@ class LessonsControllerTest {
 
         Lesson lesson = LessonsDataGenerator.generateLesson();
         List<Lesson> lessons = List.of(lesson);
-        Page<Lesson> lessonPage = new PageImpl<>(lessons, PageRequest.of(page, limit), lessons.size());
 
-        when(lessonsService.findByCriteria(any(), eq(PageRequest.of(page, limit)))).thenReturn(lessonPage);
+        // Using the new PageResponse class
+        PageResponse<Lesson> lessonPageResponse = PageResponse.of(
+            lessons,
+            new PageResponse.PageMetadata(page, limit, lessons.size(), lessons.size())
+        );
+
+        when(lessonsService.findByCriteria(any(), eq(PageRequest.of(page, limit)))).thenReturn(lessonPageResponse);
 
         // Act & Assert
-        mockMvc.perform(get("/lessons")
+        mockMvc.perform(get("/api/lessons")
                 .param("startDateTime", startDateTime.toString())
                 .param("endDateTime", endDateTime.toString())
                 .param("instructorId", instructorId.toString())
@@ -93,10 +97,15 @@ class LessonsControllerTest {
                 .param("carId", carId.toString())
                 .param("page", String.valueOf(page))
                 .param("limit", String.valueOf(limit)))
-            .andExpect(status().isOk()).andExpect(jsonPath("$.content", hasSize(1)))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.content", hasSize(1)))
             .andExpect(jsonPath("$.content[0].id").value(lesson.getId().toString()))
-            .andExpect(jsonPath("$.content[0].startTime").value(startDateTime.toString()))
-            .andExpect(jsonPath("$.content[0].endTime").value(endDateTime.toString()));
+            .andExpect(jsonPath("$.content[0].startTime").value(lesson.getStartTime().toString()))
+            .andExpect(jsonPath("$.content[0].endTime").value(lesson.getEndTime().toString()))
+            .andExpect(jsonPath("$.page.page").value(page))
+            .andExpect(jsonPath("$.page.limit").value(limit))
+            .andExpect(jsonPath("$.page.totalElements").value(lessons.size()))
+            .andExpect(jsonPath("$.page.totalPages").value(1));
     }
 
     @Test
@@ -104,12 +113,12 @@ class LessonsControllerTest {
         // Arrange
         LocalDateTime startDateTime = LocalDateTime.of(2023, 10, 1, 10, 0);
         LocalDateTime endDateTime = LocalDateTime.of(2023, 10, 1, 12, 0);
-        Page<Lesson> emptyPage = new PageImpl<>(List.of(), PageRequest.of(0, 10), 0);
+        PageResponse<Lesson> emptyPage = PageResponse.of(List.of(), new PageResponse.PageMetadata(0,0,0,0));
 
         when(lessonsService.findByCriteria(any(), any())).thenReturn(emptyPage);
 
         // Act & Assert
-        mockMvc.perform(get("/lessons")
+        mockMvc.perform(get("/api/lessons")
                 .param("startDateTime", startDateTime.toString())
                 .param("endDateTime", endDateTime.toString()))
             .andExpect(status().isOk())
@@ -120,6 +129,6 @@ class LessonsControllerTest {
     void deleteLessonById() throws Exception {
         UUID id = UUID.randomUUID();
 
-        mockMvc.perform(delete("/lessons/{id}", id)).andExpect(status().isNoContent());
+        mockMvc.perform(delete("/api/lessons/{id}", id)).andExpect(status().isNoContent());
     }
 }
