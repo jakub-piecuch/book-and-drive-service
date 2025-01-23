@@ -1,4 +1,16 @@
 services:
+  app:
+    image: book-and-drive-service
+    build:
+      context: .
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5433/bookanddrive
+      SPRING_DATASOURCE_USERNAME: bookanddrive
+      SPRING_DATASOURCE_PASSWORD: b00kanddrive!
+    depends_on:
+      - postgres
   postgres:
     image: postgres:16
     environment:
