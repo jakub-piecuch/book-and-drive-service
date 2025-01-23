@@ -55,7 +55,7 @@ class ITTraineeControllerTest {
     void shouldFindAllTrainees() {
         addTrainee();
         List<TraineeResponse> trainees = restTemplate.exchange(
-            "/trainees",
+            "/api/trainees",
             HttpMethod.GET,
             null,
             new ParameterizedTypeReference<List<TraineeResponse>>() {
@@ -73,7 +73,7 @@ class ITTraineeControllerTest {
             .email("john.doe@example.com")
             .build();
 
-        TraineeResponse response = restTemplate.postForEntity("/trainees", request, TraineeResponse.class).getBody();
+        TraineeResponse response = restTemplate.postForEntity("/api/trainees", request, TraineeResponse.class).getBody();
 
         assertThat(response.id()).isNotNull();
         assertThat(response.name()).isEqualTo("John");
@@ -85,7 +85,7 @@ class ITTraineeControllerTest {
     void shouldFindTraineeById() {
         TraineeResponse addedTrainee = addTrainee();
 
-        TraineeResponse response = restTemplate.getForObject("/trainees/" + addedTrainee.id(), TraineeResponse.class);
+        TraineeResponse response = restTemplate.getForObject("/api/trainees/" + addedTrainee.id(), TraineeResponse.class);
 
         assertThat(response.id()).isNotNull();
         assertThat(response.name()).isEqualTo("John");
@@ -105,7 +105,7 @@ class ITTraineeControllerTest {
             .build();
 
         ResponseEntity<TraineeResponse> response = restTemplate.exchange(
-            "/trainees/" + traineeId,
+            "/api/trainees/" + traineeId,
             HttpMethod.PUT,
             new HttpEntity<>(updateRequest),
             TraineeResponse.class);
@@ -123,7 +123,7 @@ class ITTraineeControllerTest {
     void shouldDeleteTraineeById() {
         TraineeResponse addedTrainee = addTrainee();
 
-        restTemplate.delete("/trainees/" + addedTrainee.id());
+        restTemplate.delete("/api/trainees/" + addedTrainee.id());
 
         assertThat(repository.findById(addedTrainee.id())).isEmpty();
     }
@@ -135,7 +135,7 @@ class ITTraineeControllerTest {
             .email("john.doe@example.com")
             .build();
 
-        return restTemplate.postForEntity("/trainees", request, TraineeResponse.class).getBody();
+        return restTemplate.postForEntity("/api/trainees", request, TraineeResponse.class).getBody();
     }
 
     @Test
@@ -149,7 +149,7 @@ class ITTraineeControllerTest {
             .build();
 
         ResponseEntity<String> response = restTemplate.exchange(
-            "/trainees/" + nonExistentTraineeId,
+            "/api/trainees/" + nonExistentTraineeId,
             HttpMethod.PUT,
             new HttpEntity<>(updateRequest),
             String.class
@@ -165,7 +165,7 @@ class ITTraineeControllerTest {
         UUID nonExistentTraineeId = UUID.randomUUID();
 
         ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
-            "/trainees/" + nonExistentTraineeId,
+            "/api/trainees/" + nonExistentTraineeId,
             HttpMethod.DELETE,
             null,
             new ParameterizedTypeReference<Map<String, Object>>() {

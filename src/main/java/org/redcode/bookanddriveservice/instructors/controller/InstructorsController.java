@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/instructors")
+@RequestMapping("/api/instructors")
 @RequiredArgsConstructor
 public class InstructorsController {
 
