@@ -45,7 +45,7 @@ class CarsControllerTest {
 
         when(carsService.create(any(Car.class))).thenReturn(car);
 
-        mockMvc.perform(post("/cars")
+        mockMvc.perform(post("/api/cars")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"make\":\"Toyota\",\"model\":\"Camry\",\"registrationNumber\":\"ABC123\"}"))
             .andExpect(status().isCreated())
@@ -60,7 +60,7 @@ class CarsControllerTest {
 
         when(carsService.getCars()).thenReturn(List.of(car));
 
-        mockMvc.perform(get("/cars"))
+        mockMvc.perform(get("/api/cars"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$[0].make").value("Toyota"))
             .andExpect(jsonPath("$[0].model").value("Camry"))
@@ -74,7 +74,7 @@ class CarsControllerTest {
 
         when(carsService.findById(id)).thenReturn(car);
 
-        mockMvc.perform(get("/cars/{id}", id))
+        mockMvc.perform(get("/api/cars/{id}", id))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.make").value(car.getMake().toString()))
             .andExpect(jsonPath("$.model").value(car.getModel()))
@@ -88,7 +88,7 @@ class CarsControllerTest {
 
         when(carsService.updateById(any(UUID.class), any(Car.class))).thenReturn(car);
 
-        mockMvc.perform(put("/cars/{id}", id)
+        mockMvc.perform(put("/api/cars/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"make\":\"Toyota\",\"model\":\"Camry\",\"registrationNumber\":\"ABC123\"}"))
             .andExpect(status().isOk())
@@ -101,7 +101,7 @@ class CarsControllerTest {
     void testDeleteCarById() throws Exception {
         UUID id = UUID.randomUUID();
 
-        mockMvc.perform(delete("/cars/{id}", id))
+        mockMvc.perform(delete("/api/cars/{id}", id))
             .andExpect(status().isNoContent());
     }
 }

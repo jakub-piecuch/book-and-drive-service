@@ -45,7 +45,7 @@ class TraineesControllerTest {
 
         when(traineesService.create(any(Trainee.class))).thenReturn(trainee);
 
-        mockMvc.perform(post("/trainees")
+        mockMvc.perform(post("/api/trainees")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"name\":\"Jan\",\"sureName\":\"Kowalski\",\"email\":\"abc@gmail.com\"}"))
             .andExpect(status().isCreated())
@@ -60,7 +60,7 @@ class TraineesControllerTest {
 
         when(traineesService.getTrainees()).thenReturn(List.of(trainee));
 
-        mockMvc.perform(get("/trainees"))
+        mockMvc.perform(get("/api/trainees"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$[0].name").value("Jan"))
             .andExpect(jsonPath("$[0].sureName").value("Kowalski"))
@@ -74,7 +74,7 @@ class TraineesControllerTest {
 
         when(traineesService.findById(id)).thenReturn(trainee);
 
-        mockMvc.perform(get("/trainees/{id}", id))
+        mockMvc.perform(get("/api/trainees/{id}", id))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.name").value(trainee.getName()))
             .andExpect(jsonPath("$.sureName").value(trainee.getSureName()))
@@ -87,7 +87,7 @@ class TraineesControllerTest {
 
         when(traineesService.findById(id)).thenReturn(null);
 
-        mockMvc.perform(get("/trainees/{id}", id))
+        mockMvc.perform(get("/api/trainees/{id}", id))
             .andExpect(status().isNotFound());
     }
 
@@ -98,7 +98,7 @@ class TraineesControllerTest {
 
         when(traineesService.updateById(any(UUID.class), any(Trainee.class))).thenReturn(trainee);
 
-        mockMvc.perform(put("/trainees/{id}", id)
+        mockMvc.perform(put("/api/trainees/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"name\":\"Jan\",\"sureName\":\"Kowalski\",\"email\":\"abc@gmail.com\"}"))
             .andExpect(status().isOk())
@@ -111,7 +111,7 @@ class TraineesControllerTest {
     void testDeleteTraineeById() throws Exception {
         UUID id = UUID.randomUUID();
 
-        mockMvc.perform(delete("/trainees/{id}", id))
+        mockMvc.perform(delete("/api/trainees/{id}", id))
             .andExpect(status().isNoContent());
     }
 

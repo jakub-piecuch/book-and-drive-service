@@ -55,7 +55,7 @@ class ITCarControllerTest {
     @Test
     void shouldFindAllCars() {
         addCar();
-        String url = "/cars";
+        String url = "/api/cars";
         List<Car> cars = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Car>>() {
         }).getBody();
 
@@ -72,7 +72,7 @@ class ITCarControllerTest {
             .registrationNumber("SB123")
             .build();
 
-        CarResponse response = restTemplate.postForEntity("/cars", request, CarResponse.class).getBody();
+        CarResponse response = restTemplate.postForEntity("/api/cars", request, CarResponse.class).getBody();
 
         assertThat(response.id()).isNotNull();
         assertThat(response.make()).isEqualTo("skoda");
@@ -85,7 +85,7 @@ class ITCarControllerTest {
         CarResponse addedCar = addCar();
         String registrationNumber = addedCar.registrationNumber();
 
-        CarResponse response = restTemplate.getForObject("/cars/" + addedCar.id(), CarResponse.class);
+        CarResponse response = restTemplate.getForObject("/api/cars/" + addedCar.id(), CarResponse.class);
 
         assertThat(response.id()).isNotNull();
         assertThat(response.make()).isEqualTo("skoda");
@@ -108,7 +108,7 @@ class ITCarControllerTest {
 
         // Act: Perform the PUT request
         ResponseEntity<CarResponse> response = restTemplate.exchange(
-            "/cars/" + carId,
+            "/api/cars/" + carId,
             HttpMethod.PUT,
             new HttpEntity<>(updateRequest),
             CarResponse.class
@@ -138,7 +138,7 @@ class ITCarControllerTest {
 
         ResponseEntity<String> response =
             restTemplate.exchange(
-                "/cars/" + carId,
+                "/api/cars/" + carId,
                 HttpMethod.PUT,
                 new HttpEntity<>(updateRequest),
                 String.class);
@@ -152,7 +152,7 @@ class ITCarControllerTest {
     void shouldDeleteCarById() {
         CarResponse response = addCar();
 
-        restTemplate.delete("/cars/" + response.id());
+        restTemplate.delete("/api/cars/" + response.id());
 
         var result = repository.findById(response.id());
 
@@ -164,7 +164,7 @@ class ITCarControllerTest {
         UUID nonExistentCarId = UUID.randomUUID();
 
         var response = restTemplate.exchange(
-            "/cars/" + nonExistentCarId,
+            "/api/cars/" + nonExistentCarId,
             org.springframework.http.HttpMethod.DELETE,
             null,
             new ParameterizedTypeReference<Map<String, Object>>() {
@@ -191,6 +191,6 @@ class ITCarControllerTest {
             .registrationNumber(UUID.randomUUID().toString())
             .build();
 
-        return restTemplate.postForEntity("/cars", request, CarResponse.class).getBody();
+        return restTemplate.postForEntity("/api/cars", request, CarResponse.class).getBody();
     }
 }

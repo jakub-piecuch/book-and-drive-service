@@ -18,7 +18,12 @@ spring:
     locations: classpath:db/migration/default, classpath:db/migration/tenants
     schema: public
 
+server:
+  port: 8081
+
 logging:
+  pattern:
+    correlation: '[%X{traceId:-}-%X{spanId:-}] [%X{tenantId:-}] '
   level:
     org:
       hibernate:
