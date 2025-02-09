@@ -21,17 +21,6 @@ services:
       - '5433:5432'
     restart: unless-stopped
 
-  # not gonna use it probably
-#  keycloak:
-#    image: quay.io/keycloak/keycloak:24.0
-#    container_name: keycloak
-#    environment:
-#      - KEYCLOAK_ADMIN=admin
-#      - KEYCLOAK_ADMIN_PASSWORD=admin
-#    command: start-dev
-#    ports:
-#      - "8084:8080"
-
   redis:
     image: redis:7.4.2
     ports:

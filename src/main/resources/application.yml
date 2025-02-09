@@ -5,7 +5,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${KEYCLOAK_URI:http://localhost:8084}/auth/realms/dev
+          issuer-uri: ${AUTH_SERVER_URI:https://localhost:8443}}
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/bookanddrive}
     username: ${SPRING_DATASOURCE_USERNAME:bookanddrive}
