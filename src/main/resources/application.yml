@@ -1,15 +1,10 @@
 spring:
   application:
     name: book-and-drive-service
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: ${AUTH_SERVER_URI:https://localhost:8443}}
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/bookanddrive}
     username: ${SPRING_DATASOURCE_USERNAME:bookanddrive}
-    password: ${SPRING_DATASOURCE_PASSWORD:b00kanddrive}
+    password: ${SPRING_DATASOURCE_PASSWORD:b00kanddrive!}
     driver-class-name: org.postgresql.Driver
   jpa:
     show-sql: true
@@ -40,6 +35,3 @@ logging:
 multitenancy:
   http:
     header: X-Tenant-Id
-
-
-
