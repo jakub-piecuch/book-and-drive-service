@@ -2,6 +2,12 @@ package org.redcode.bookanddriveservice.cars.controller;
 
 import static org.redcode.bookanddriveservice.exceptions.ResourceNotFoundException.RESOURECE_NOT_FOUND;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +19,7 @@ import org.redcode.bookanddriveservice.cars.controller.dto.CreateCarRequest;
 import org.redcode.bookanddriveservice.cars.controller.dto.UpdateCarRequest;
 import org.redcode.bookanddriveservice.cars.domain.Car;
 import org.redcode.bookanddriveservice.cars.service.CarsService;
+import org.redcode.bookanddriveservice.exceptions.ErrorDetails;
 import org.redcode.bookanddriveservice.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,12 +34,35 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/cars")
+@Tag(name = "Cars")
 @RequiredArgsConstructor
+@RequestMapping("/api/cars")
 class CarsController {
 
     private final CarsService carsService;
 
+    @Operation(
+        summary = "Create a new car",
+        description = "Creates a new car with the specified make, model, and registration number",
+        responses = {
+            @ApiResponse(
+                responseCode = "201",
+                description = "Car created successfully",
+                content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = CarResponse.class)
+                )
+            ),
+            @ApiResponse(
+                responseCode = "400",
+                description = "Invalid input, missing or invalid required fields",
+                content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ErrorDetails.class)
+                )
+            )
+        }
+    )
     @PostMapping
     public ResponseEntity<CarResponse> createCar(@Valid @RequestBody CreateCarRequest request) {
         Car car = Car.from(request);
