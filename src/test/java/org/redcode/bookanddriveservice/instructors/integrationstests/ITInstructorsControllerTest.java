@@ -69,7 +69,7 @@ class ITInstructorsControllerTest {
     void shouldCreateInstructor() {
         CreateInstructorRequest request = CreateInstructorRequest.builder()
             .name("Jane")
-            .sureName("Smith")
+            .surname("Smith")
             .email("jane.smith@example.com")
             .build();
 
@@ -77,7 +77,7 @@ class ITInstructorsControllerTest {
 
         assertThat(response.id()).isNotNull();
         assertThat(response.name()).isEqualTo("Jane");
-        assertThat(response.sureName()).isEqualTo("Smith");
+        assertThat(response.surname()).isEqualTo("Smith");
         assertThat(response.email()).isEqualTo("jane.smith@example.com");
     }
 
@@ -89,7 +89,7 @@ class ITInstructorsControllerTest {
 
         assertThat(response.id()).isNotNull();
         assertThat(response.name()).isEqualTo("Jane");
-        assertThat(response.sureName()).isEqualTo("Smith");
+        assertThat(response.surname()).isEqualTo("Smith");
         assertThat(response.email()).isEqualTo(addedInstructor.email());
     }
 
@@ -100,7 +100,7 @@ class ITInstructorsControllerTest {
 
         UpdateInstructorRequest updateRequest = UpdateInstructorRequest.builder()
             .name("UpdatedJane")
-            .sureName("UpdatedSmith")
+            .surname("UpdatedSmith")
             .email("updated.jane.smith@example.com")
             .build();
 
@@ -115,7 +115,7 @@ class ITInstructorsControllerTest {
         InstructorEntity updatedInstructor = entityManager.find(InstructorEntity.class, instructorId);
 
         assertThat(updatedInstructor.getName()).isEqualTo("UpdatedJane");
-        assertThat(updatedInstructor.getSureName()).isEqualTo("UpdatedSmith");
+        assertThat(updatedInstructor.getSurname()).isEqualTo("UpdatedSmith");
         assertThat(updatedInstructor.getEmail()).isEqualTo("updated.jane.smith@example.com");
     }
 
@@ -131,7 +131,7 @@ class ITInstructorsControllerTest {
     private InstructorResponse addInstructor() {
         CreateInstructorRequest request = CreateInstructorRequest.builder()
             .name("Jane")
-            .sureName("Smith")
+            .surname("Smith")
             .email("jane.smith@example.com")
             .build();
 
@@ -144,7 +144,7 @@ class ITInstructorsControllerTest {
 
         UpdateInstructorRequest updateRequest = UpdateInstructorRequest.builder()
             .name("NonExistentFirstName")
-            .sureName("NonExistentLastName")
+            .surname("NonExistentLastName")
             .email("nonexistent@example.com")
             .build();
 

@@ -8,14 +8,14 @@ import org.redcode.bookanddriveservice.instructors.domain.Instructor;
 public record InstructorResponse(
     UUID id,
     String name,
-    String sureName,
+    String surname,
     String email
 ) {
     public static InstructorResponse from(Instructor instructor) {
         return InstructorResponse.builder()
             .id(instructor.getId())
             .name(instructor.getName())
-            .sureName(instructor.getSureName())
+            .surname(instructor.getSurname())
             .email(instructor.getEmail())
             .build();
     }

@@ -5,7 +5,7 @@ import lombok.Builder;
 @Builder
 public record UpdateTraineeRequest(
     String name,
-    String sureName,
+    String surname,
     String email
 ) {
 }

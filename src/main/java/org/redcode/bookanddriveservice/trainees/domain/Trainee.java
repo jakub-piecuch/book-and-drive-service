@@ -16,14 +16,14 @@ import org.redcode.bookanddriveservice.trainees.model.TraineeEntity;
 public class Trainee {
     private UUID id;
     private String name;
-    private String sureName;
+    private String surname;
     private String email;
 
     public static Trainee from(TraineeEntity trainee) {
         return Trainee.builder()
             .id(trainee.getId())
             .name(trainee.getName())
-            .sureName(trainee.getSureName())
+            .surname(trainee.getSurname())
             .email(trainee.getEmail())
             .build();
     }
@@ -31,7 +31,7 @@ public class Trainee {
     public static Trainee from(CreateTraineeRequest request) {
         return Trainee.builder()
             .name(request.name())
-            .sureName(request.sureName())
+            .surname(request.surname())
             .email(request.email())
             .build();
     }
@@ -40,7 +40,7 @@ public class Trainee {
     public static Trainee from(UpdateTraineeRequest request) {
         return Trainee.builder()
             .name(request.name())
-            .sureName(request.sureName())
+            .surname(request.surname())
             .email(request.email())
             .build();
     }

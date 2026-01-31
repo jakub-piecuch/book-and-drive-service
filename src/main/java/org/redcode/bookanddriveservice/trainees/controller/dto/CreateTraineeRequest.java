@@ -8,7 +8,7 @@ public record CreateTraineeRequest(
     @NotNull
     String name,
     @NotNull
-    String sureName,
+    String surname,
     @NotNull
     String email
 ) {

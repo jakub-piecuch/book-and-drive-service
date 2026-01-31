@@ -14,14 +14,14 @@ import org.redcode.bookanddriveservice.instructors.model.InstructorEntity;
 public class Instructor {
     private UUID id;
     private String name;
-    private String sureName;
+    private String surname;
     private String email;
 
     public static Instructor from(InstructorEntity instructor) {
         return Instructor.builder()
             .id(instructor.getId())
             .name(instructor.getName())
-            .sureName(instructor.getSureName())
+            .surname(instructor.getSurname())
             .email(instructor.getEmail())
             .build();
     }
@@ -29,7 +29,7 @@ public class Instructor {
     public static Instructor from(CreateInstructorRequest instructor) {
         return Instructor.builder()
             .name(instructor.name())
-            .sureName(instructor.sureName())
+            .surname(instructor.surname())
             .email(instructor.email())
             .build();
     }
@@ -37,7 +37,7 @@ public class Instructor {
     public static Instructor from(UpdateInstructorRequest instructor) {
         return Instructor.builder()
             .name(instructor.name())
-            .sureName(instructor.sureName())
+            .surname(instructor.surname())
             .email(instructor.email())
             .build();
     }

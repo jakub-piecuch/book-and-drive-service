@@ -69,7 +69,7 @@ class ITTraineeControllerTest {
     void shouldCreateTrainee() {
         CreateTraineeRequest request = CreateTraineeRequest.builder()
             .name("John")
-            .sureName("Doe")
+            .surname("Doe")
             .email("john.doe@example.com")
             .build();
 
@@ -77,7 +77,7 @@ class ITTraineeControllerTest {
 
         assertThat(response.id()).isNotNull();
         assertThat(response.name()).isEqualTo("John");
-        assertThat(response.sureName()).isEqualTo("Doe");
+        assertThat(response.surname()).isEqualTo("Doe");
         assertThat(response.email()).isEqualTo("john.doe@example.com");
     }
 
@@ -89,7 +89,7 @@ class ITTraineeControllerTest {
 
         assertThat(response.id()).isNotNull();
         assertThat(response.name()).isEqualTo("John");
-        assertThat(response.sureName()).isEqualTo("Doe");
+        assertThat(response.surname()).isEqualTo("Doe");
         assertThat(response.email()).isEqualTo(addedTrainee.email());
     }
 
@@ -100,7 +100,7 @@ class ITTraineeControllerTest {
 
         UpdateTraineeRequest updateRequest = UpdateTraineeRequest.builder()
             .name("UpdatedJohn")
-            .sureName("UpdatedDoe")
+            .surname("UpdatedDoe")
             .email("updated.john.doe@example.com")
             .build();
 
@@ -115,7 +115,7 @@ class ITTraineeControllerTest {
         TraineeEntity updatedTrainee = entityManager.find(TraineeEntity.class, traineeId);
 
         assertThat(updatedTrainee.getName()).isEqualTo("UpdatedJohn");
-        assertThat(updatedTrainee.getSureName()).isEqualTo("UpdatedDoe");
+        assertThat(updatedTrainee.getSurname()).isEqualTo("UpdatedDoe");
         assertThat(updatedTrainee.getEmail()).isEqualTo("updated.john.doe@example.com");
     }
 
@@ -131,7 +131,7 @@ class ITTraineeControllerTest {
     private TraineeResponse addTrainee() {
         CreateTraineeRequest request = CreateTraineeRequest.builder()
             .name("John")
-            .sureName("Doe")
+            .surname("Doe")
             .email("john.doe@example.com")
             .build();
 
@@ -144,7 +144,7 @@ class ITTraineeControllerTest {
 
         UpdateTraineeRequest updateRequest = UpdateTraineeRequest.builder()
             .name("NonExistentFirstName")
-            .sureName("NonExistentLastName")
+            .surname("NonExistentLastName")
             .email("nonexistent@example.com")
             .build();
 
