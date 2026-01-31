@@ -26,7 +26,7 @@ public class TraineeEntity {
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
-    private String sureName;
+    private String surname;
     @Column(unique = true, nullable = false)
     private String email;
 
@@ -34,7 +34,7 @@ public class TraineeEntity {
         return TraineeEntity.builder()
             .id(trainee.getId())
             .name(trainee.getName())
-            .sureName(trainee.getSureName())
+            .surname(trainee.getSurname())
             .email(trainee.getEmail())
             .build();
     }
@@ -43,7 +43,7 @@ public class TraineeEntity {
         return TraineeEntity.builder()
             .id(traineeEntity.getId())
             .name(trainee.getName())
-            .sureName(trainee.getSureName())
+            .surname(trainee.getSurname())
             .email(trainee.getEmail())
             .build();
     }

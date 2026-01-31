@@ -26,7 +26,7 @@ public class InstructorEntity {
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
-    private String sureName;
+    private String surname;
     @Column(unique = true, nullable = false)
     private String email;
 
@@ -34,7 +34,7 @@ public class InstructorEntity {
         return InstructorEntity.builder()
             .id(instructor.getId())
             .name(instructor.getName())
-            .sureName(instructor.getSureName())
+            .surname(instructor.getSurname())
             .email(instructor.getEmail())
             .build();
     }
@@ -43,7 +43,7 @@ public class InstructorEntity {
         return InstructorEntity.builder()
             .id(instructorEntity.getId())
             .name(instructor.getName())
-            .sureName(instructor.getSureName())
+            .surname(instructor.getSurname())
             .email(instructor.getEmail())
             .build();
     }

@@ -8,14 +8,14 @@ import org.redcode.bookanddriveservice.trainees.domain.Trainee;
 public record TraineeResponse(
     UUID id,
     String name,
-    String sureName,
+    String surname,
     String email
 ) {
     public static TraineeResponse from(Trainee trainee) {
         return TraineeResponse.builder()
             .id(trainee.getId())
             .name(trainee.getName())
-            .sureName(trainee.getSureName())
+            .surname(trainee.getSurname())
             .email(trainee.getEmail())
             .build();
     }

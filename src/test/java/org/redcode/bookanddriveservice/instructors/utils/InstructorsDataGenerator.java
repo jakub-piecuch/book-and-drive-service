@@ -10,14 +10,14 @@ public class InstructorsDataGenerator {
 
     private static final UUID INSTRUCTOR_ID = UUID.randomUUID();
     private static final String NAME = "Jan";
-    private static final String SURE_NAME = "Kowalski";
+    private static final String SURNAME = "Kowalski";
     private static final String EMAIL = "kowalski@gmail.com";
 
     public static Instructor generateInstructor() {
         return Instructor.builder()
             .id(INSTRUCTOR_ID)
             .name(NAME)
-            .sureName(SURE_NAME)
+            .surname(SURNAME)
             .email(EMAIL)
             .build();
     }
@@ -26,7 +26,7 @@ public class InstructorsDataGenerator {
         return InstructorEntity.builder()
             .id(INSTRUCTOR_ID)
             .name(NAME)
-            .sureName(SURE_NAME)
+            .surname(SURNAME)
             .email(EMAIL)
             .build();
     }

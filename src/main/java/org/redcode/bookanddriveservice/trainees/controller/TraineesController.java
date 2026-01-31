@@ -2,11 +2,13 @@ package org.redcode.bookanddriveservice.trainees.controller;
 
 
 import jakarta.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.redcode.bookanddriveservice.exceptions.ResourceNotFoundException;
 import org.redcode.bookanddriveservice.trainees.controller.dto.CreateTraineeRequest;
 import org.redcode.bookanddriveservice.trainees.controller.dto.TraineeResponse;
 import org.redcode.bookanddriveservice.trainees.controller.dto.UpdateTraineeRequest;
@@ -42,12 +44,16 @@ public class TraineesController {
 
     @GetMapping
     public ResponseEntity<List<TraineeResponse>> getTrainees() {
-        log.info("Fetching all trainees.");
-        List<TraineeResponse> trainees = traineesService.getTrainees().stream()
-            .map(TraineeResponse::from)
-            .toList();
+        try {
+            log.info("Fetching all trainees.");
+            List<TraineeResponse> trainees = traineesService.getTrainees().stream()
+                .map(TraineeResponse::from)
+                .toList();
 
-        return ResponseEntity.ok(trainees);
+            return ResponseEntity.ok(trainees);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.ok(Collections.emptyList());
+        }
     }
 
     @GetMapping("/{id}")

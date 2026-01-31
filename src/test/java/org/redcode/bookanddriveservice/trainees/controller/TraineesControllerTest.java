@@ -47,10 +47,10 @@ class TraineesControllerTest {
 
         mockMvc.perform(post("/api/trainees")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"Jan\",\"sureName\":\"Kowalski\",\"email\":\"abc@gmail.com\"}"))
+                .content("{\"name\":\"Jan\",\"surname\":\"Kowalski\",\"email\":\"abc@gmail.com\"}"))
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.name").value("Jan"))
-            .andExpect(jsonPath("$.sureName").value("Kowalski"))
+            .andExpect(jsonPath("$.surname").value("Kowalski"))
             .andExpect(jsonPath("$.email").value("abc@gmail.com"));
     }
 
@@ -63,7 +63,7 @@ class TraineesControllerTest {
         mockMvc.perform(get("/api/trainees"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$[0].name").value("Jan"))
-            .andExpect(jsonPath("$[0].sureName").value("Kowalski"))
+            .andExpect(jsonPath("$[0].surname").value("Kowalski"))
             .andExpect(jsonPath("$[0].email").value("abc@gmail.com"));
     }
 
@@ -77,7 +77,7 @@ class TraineesControllerTest {
         mockMvc.perform(get("/api/trainees/{id}", id))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.name").value(trainee.getName()))
-            .andExpect(jsonPath("$.sureName").value(trainee.getSureName()))
+            .andExpect(jsonPath("$.surname").value(trainee.getSurname()))
             .andExpect(jsonPath("$.email").value(trainee.getEmail()));
     }
 
@@ -100,10 +100,10 @@ class TraineesControllerTest {
 
         mockMvc.perform(put("/api/trainees/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"Jan\",\"sureName\":\"Kowalski\",\"email\":\"abc@gmail.com\"}"))
+                .content("{\"name\":\"Jan\",\"surname\":\"Kowalski\",\"email\":\"abc@gmail.com\"}"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.name").value("Jan"))
-            .andExpect(jsonPath("$.sureName").value("Kowalski"))
+            .andExpect(jsonPath("$.surname").value("Kowalski"))
             .andExpect(jsonPath("$.email").value("abc@gmail.com"));
     }
 

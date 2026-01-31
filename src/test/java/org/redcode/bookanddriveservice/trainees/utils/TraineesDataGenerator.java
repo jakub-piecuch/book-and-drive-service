@@ -10,14 +10,14 @@ public class TraineesDataGenerator {
 
     private static final UUID TRAINEE_ID = UUID.randomUUID();
     private static final String NAME = "John";
-    private static final String SURE_NAME = "Doe";
+    private static final String SURNAME = "Doe";
     private static final String EMAIL = "johndoe@gmail.com";
 
     public static Trainee generateTrainee() {
         return Trainee.builder()
             .id(TRAINEE_ID)
             .name(NAME)
-            .sureName(SURE_NAME)
+            .surname(SURNAME)
             .email(EMAIL)
             .build();
     }
@@ -26,7 +26,7 @@ public class TraineesDataGenerator {
         return TraineeEntity.builder()
             .id(TRAINEE_ID)
             .name(NAME)
-            .sureName(SURE_NAME)
+            .surname(SURNAME)
             .email(EMAIL)
             .build();
     }
