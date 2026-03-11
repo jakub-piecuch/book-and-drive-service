@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.TenantId;
 import org.redcode.bookanddriveservice.cars.model.CarEntity;
 import org.redcode.bookanddriveservice.instructors.model.InstructorEntity;
 import org.redcode.bookanddriveservice.lessons.domain.Lesson;
@@ -31,6 +32,8 @@ public class LessonEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+    @TenantId
+    private String tenantId;
     @NotNull
     @Column(nullable = false)
     private LocalDateTime endTime;
