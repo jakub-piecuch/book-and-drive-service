@@ -8,11 +8,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.TenantId;
 import org.redcode.bookanddriveservice.cars.domain.Car;
 
 @Data
@@ -20,16 +22,18 @@ import org.redcode.bookanddriveservice.cars.domain.Car;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "car")
+@Table(name = "car", uniqueConstraints = @UniqueConstraint(columnNames = {"tenant_id", "registration_number"}))
 public class CarEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+    @TenantId
+    private String tenantId;
     @Column(nullable = false)
     private String make;
     @Column(nullable = false)
     private String model;
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String registrationNumber;
 
     public static CarEntity from(Car car) {

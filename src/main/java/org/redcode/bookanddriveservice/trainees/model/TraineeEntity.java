@@ -6,11 +6,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.TenantId;
 import org.redcode.bookanddriveservice.trainees.domain.Trainee;
 
 @Data
@@ -18,16 +20,18 @@ import org.redcode.bookanddriveservice.trainees.domain.Trainee;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "trainee")
+@Table(name = "trainee", uniqueConstraints = @UniqueConstraint(columnNames = {"tenant_id", "email"}))
 public class TraineeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+    @TenantId
+    private String tenantId;
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
     private String surname;
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String email;
 
     public static TraineeEntity from(Trainee trainee){
