@@ -9,6 +9,7 @@ import org.redcode.bookanddriveservice.cars.domain.Car;
 @Builder
 public record CarResponse(
     UUID id,
+    String tenantId,
     String make,
     String model,
     String registrationNumber
@@ -19,6 +20,7 @@ public record CarResponse(
         }
         return CarResponse.builder()
             .id(car.getId())
+            .tenantId(car.getTenantId())
             .make(car.getMake())
             .model(car.getModel())
             .registrationNumber(car.getRegistrationNumber())

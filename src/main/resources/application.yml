@@ -1,11 +1,11 @@
 spring:
   application:
     name: book-and-drive-service
-#  security:
-#    oauth2:
-#      resourceserver:
-#        jwt:
-#          issuer-uri: ${AUTH_SERVER_URI:https://localhost:8443}}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${CLERK_JWKS_URI:https://kind-pegasus-3.clerk.accounts.dev/.well-known/jwks.json}
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/bookanddrive}
     username: ${SPRING_DATASOURCE_USERNAME:bookanddrive}
@@ -38,6 +38,6 @@ logging:
           descriptor:
             sql: TRACE
 
-multitenancy:
-  http:
-    header: X-Tenant-Id
+app:
+  cors:
+    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:http://localhost:3000}

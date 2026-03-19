@@ -20,6 +20,7 @@ import org.redcode.bookanddriveservice.trainees.domain.Trainee;
 @AllArgsConstructor
 public class Lesson {
     private UUID id;
+    private String tenantId;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Instructor instructor;
@@ -29,6 +30,7 @@ public class Lesson {
     public static Lesson from(LessonEntity lesson) {
         return Lesson.builder()
             .id(lesson.getId())
+            .tenantId(lesson.getTenantId())
             .startTime(lesson.getStartTime())
             .endTime(lesson.getEndTime())
             .instructor(Instructor.from(lesson.getInstructor()))

@@ -15,6 +15,7 @@ import org.redcode.bookanddriveservice.trainees.model.TraineeEntity;
 @AllArgsConstructor
 public class Trainee {
     private UUID id;
+    private String tenantId;
     private String name;
     private String surname;
     private String email;
@@ -22,6 +23,7 @@ public class Trainee {
     public static Trainee from(TraineeEntity trainee) {
         return Trainee.builder()
             .id(trainee.getId())
+            .tenantId(trainee.getTenantId())
             .name(trainee.getName())
             .surname(trainee.getSurname())
             .email(trainee.getEmail())

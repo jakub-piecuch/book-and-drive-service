@@ -41,7 +41,7 @@ class TraineesControllerTest {
 
     @Test
     void testCreateTrainee() throws Exception {
-        Trainee trainee = new Trainee(UUID.randomUUID(), "Jan", "Kowalski", "abc@gmail.com");
+        Trainee trainee = Trainee.builder().id(UUID.randomUUID()).name("Jan").surname("Kowalski").email("abc@gmail.com").build();
 
         when(traineesService.create(any(Trainee.class))).thenReturn(trainee);
 
@@ -56,7 +56,7 @@ class TraineesControllerTest {
 
     @Test
     void testGetTrainees() throws Exception {
-        Trainee trainee = new Trainee(UUID.randomUUID(), "Jan", "Kowalski", "abc@gmail.com");
+        Trainee trainee = Trainee.builder().id(UUID.randomUUID()).name("Jan").surname("Kowalski").email("abc@gmail.com").build();
 
         when(traineesService.getTrainees()).thenReturn(List.of(trainee));
 
@@ -70,7 +70,7 @@ class TraineesControllerTest {
     @Test
     void testGetTraineeById() throws Exception {
         UUID id = UUID.randomUUID();
-        Trainee trainee = new Trainee(id, "Jan", "Kowalski", "abc@gmail.com");
+        Trainee trainee = Trainee.builder().id(id).name("Jan").surname("Kowalski").email("abc@gmail.com").build();
 
         when(traineesService.findById(id)).thenReturn(trainee);
 
@@ -94,7 +94,7 @@ class TraineesControllerTest {
     @Test
     void testUpdateTraineeById() throws Exception {
         UUID id = UUID.randomUUID();
-        Trainee trainee = new Trainee(id, "Jan", "Kowalski", "abc@gmail.com");
+        Trainee trainee = Trainee.builder().id(id).name("Jan").surname("Kowalski").email("abc@gmail.com").build();
 
         when(traineesService.updateById(any(UUID.class), any(Trainee.class))).thenReturn(trainee);
 
