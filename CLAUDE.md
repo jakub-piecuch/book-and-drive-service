@@ -53,7 +53,7 @@ Each business domain (`lessons`, `cars`, `instructors`, `trainees`, `tenants`) f
 
 ### Key Cross-Cutting Concerns
 - **Exception handling**: `GlobalExceptionHandler` (`@ControllerAdvice`) translates domain exceptions (`ValidationException`, `ResourceNotFoundException`, `DuplicateResourceException`) into consistent `ErrorDetails` responses.
-- **OpenAPI**: SpringDoc 2.8.5 — Swagger UI at `/swagger-ui.html`. Requires a valid Clerk JWT — use the "Authorize" button and paste a Bearer token.
+- **OpenAPI**: SpringDoc 2.8.5 — Swagger UI at `/swagger-ui.html`. The UI itself is publicly accessible; API calls within it require a Clerk JWT — use the "Authorize" button and paste a Bearer token.
 - **Logging**: MDC includes `tenantId` for correlation; Hibernate SQL logging is enabled at DEBUG level.
 
 ### Database
