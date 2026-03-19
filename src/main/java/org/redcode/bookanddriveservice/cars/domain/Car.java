@@ -15,6 +15,7 @@ import org.redcode.bookanddriveservice.cars.model.CarEntity;
 @AllArgsConstructor
 public class Car {
     private UUID id;
+    private String tenantId;
     private String make;
     private String model;
     private String registrationNumber;
@@ -25,6 +26,7 @@ public class Car {
         }
         return Car.builder()
             .id(entity.getId())
+            .tenantId(entity.getTenantId())
             .make(entity.getMake())
             .model(entity.getModel())
             .registrationNumber(entity.getRegistrationNumber())

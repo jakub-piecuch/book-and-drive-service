@@ -13,6 +13,7 @@ import org.redcode.bookanddriveservice.instructors.model.InstructorEntity;
 @AllArgsConstructor
 public class Instructor {
     private UUID id;
+    private String tenantId;
     private String name;
     private String surname;
     private String email;
@@ -20,6 +21,7 @@ public class Instructor {
     public static Instructor from(InstructorEntity instructor) {
         return Instructor.builder()
             .id(instructor.getId())
+            .tenantId(instructor.getTenantId())
             .name(instructor.getName())
             .surname(instructor.getSurname())
             .email(instructor.getEmail())

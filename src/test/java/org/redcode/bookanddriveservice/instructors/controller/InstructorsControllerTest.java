@@ -41,7 +41,7 @@ class InstructorsControllerTest {
 
     @Test
     void testCreateInstructor() throws Exception {
-        Instructor instructor = new Instructor(UUID.randomUUID(), "Jan", "Kowalski", "abc@gmail.com");
+        Instructor instructor = Instructor.builder().id(UUID.randomUUID()).name("Jan").surname("Kowalski").email("abc@gmail.com").build();
 
         when(instructorsService.create(any(Instructor.class))).thenReturn(instructor);
 
@@ -56,7 +56,7 @@ class InstructorsControllerTest {
 
     @Test
     void testGetInstructors() throws Exception {
-        Instructor instructor = new Instructor(UUID.randomUUID(), "Jan", "Kowalski", "abc@gmail.com");
+        Instructor instructor = Instructor.builder().id(UUID.randomUUID()).name("Jan").surname("Kowalski").email("abc@gmail.com").build();
 
         when(instructorsService.getInstructors()).thenReturn(List.of(instructor));
 
@@ -70,7 +70,7 @@ class InstructorsControllerTest {
     @Test
     void testGetInstructorById() throws Exception {
         UUID id = UUID.randomUUID();
-        Instructor instructor = new Instructor(id, "Jan", "Kowalski", "abc@gmail.com");
+        Instructor instructor = Instructor.builder().id(id).name("Jan").surname("Kowalski").email("abc@gmail.com").build();
 
         when(instructorsService.findById(id)).thenReturn(instructor);
 
@@ -94,7 +94,7 @@ class InstructorsControllerTest {
     @Test
     void testUpdateInstructorById() throws Exception {
         UUID id = UUID.randomUUID();
-        Instructor instructor = new Instructor(id, "Jan", "Kowalski", "abc@gmail.com");
+        Instructor instructor = Instructor.builder().id(id).name("Jan").surname("Kowalski").email("abc@gmail.com").build();
 
         when(instructorsService.updateById(any(UUID.class), any(Instructor.class))).thenReturn(instructor);
 

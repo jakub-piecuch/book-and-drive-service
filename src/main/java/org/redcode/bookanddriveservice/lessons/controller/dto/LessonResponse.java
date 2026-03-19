@@ -11,6 +11,7 @@ import org.redcode.bookanddriveservice.lessons.domain.Lesson;
 @Builder
 public record LessonResponse(
     UUID id,
+    String tenantId,
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     LocalDateTime startTime,
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
@@ -22,6 +23,7 @@ public record LessonResponse(
     public static LessonResponse from(Lesson lesson) {
         LessonResponseBuilder lessonResponseBuilder = LessonResponse.builder()
             .id(lesson.getId())
+            .tenantId(lesson.getTenantId())
             .startTime(lesson.getStartTime())
             .endTime(lesson.getEndTime())
             .instructorId((lesson.getInstructor().getId()))

@@ -5,8 +5,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.redcode.bookanddriveservice.tenants.context.TenantContext;
-import org.redcode.bookanddriveservice.tenants.resolver.HttpHeaderTenantResolver;
+import org.redcode.bookanddriveservice.tenants.resolver.ClerkJwtTenantResolver;
 import org.slf4j.MDC;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.ServerHttpObservationFilter;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -16,11 +17,17 @@ import org.springframework.web.servlet.ModelAndView;
 @RequiredArgsConstructor
 public class TenantInterceptor implements HandlerInterceptor {
 
-    private final HttpHeaderTenantResolver tenantResolver;
+    private final ClerkJwtTenantResolver tenantResolver;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         var tenantId = tenantResolver.resolveTenantId(request);
+
+        if (tenantId == null) {
+            response.sendError(HttpStatus.FORBIDDEN.value(), "No organization context in token. Activate an organization in your Clerk session.");
+            return false;
+        }
+
         TenantContext.setTenantId(tenantId);
         MDC.put("tenantId", tenantId);
 

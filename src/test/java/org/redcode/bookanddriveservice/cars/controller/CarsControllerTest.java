@@ -41,7 +41,7 @@ class CarsControllerTest {
 
     @Test
     void testCreateCar() throws Exception {
-        Car car = new Car(UUID.randomUUID(), "Toyota", "Camry", "ABC123");
+        Car car = Car.builder().id(UUID.randomUUID()).make("Toyota").model("Camry").registrationNumber("ABC123").build();
 
         when(carsService.create(any(Car.class))).thenReturn(car);
 
@@ -56,7 +56,7 @@ class CarsControllerTest {
 
     @Test
     void testGetCars() throws Exception {
-        Car car = new Car(UUID.randomUUID(), "Toyota", "Camry", "ABC123");
+        Car car = Car.builder().id(UUID.randomUUID()).make("Toyota").model("Camry").registrationNumber("ABC123").build();
 
         when(carsService.getCars()).thenReturn(List.of(car));
 
@@ -70,7 +70,7 @@ class CarsControllerTest {
     @Test
     void testGetCarById() throws Exception {
         UUID id = UUID.randomUUID();
-        Car car = new Car(id, "Toyota", "Camry", "ABC123");
+        Car car = Car.builder().id(id).make("Toyota").model("Camry").registrationNumber("ABC123").build();
 
         when(carsService.findById(id)).thenReturn(car);
 
@@ -84,7 +84,7 @@ class CarsControllerTest {
     @Test
     void testUpdateCarById() throws Exception {
         UUID id = UUID.randomUUID();
-        Car car = new Car(id, "Toyota", "Camry", "ABC123");
+        Car car = Car.builder().id(id).make("Toyota").model("Camry").registrationNumber("ABC123").build();
 
         when(carsService.updateById(any(UUID.class), any(Car.class))).thenReturn(car);
 

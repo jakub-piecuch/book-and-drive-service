@@ -7,6 +7,7 @@ import org.redcode.bookanddriveservice.instructors.domain.Instructor;
 @Builder
 public record InstructorResponse(
     UUID id,
+    String tenantId,
     String name,
     String surname,
     String email
@@ -14,6 +15,7 @@ public record InstructorResponse(
     public static InstructorResponse from(Instructor instructor) {
         return InstructorResponse.builder()
             .id(instructor.getId())
+            .tenantId(instructor.getTenantId())
             .name(instructor.getName())
             .surname(instructor.getSurname())
             .email(instructor.getEmail())
