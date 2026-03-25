@@ -41,13 +41,13 @@ class TraineesControllerTest {
 
     @Test
     void testCreateTrainee() throws Exception {
-        Trainee trainee = Trainee.builder().id(UUID.randomUUID()).name("Jan").surname("Kowalski").email("abc@gmail.com").build();
+        Trainee trainee = Trainee.builder().id(UUID.randomUUID()).name("Jan").surname("Kowalski").phoneNumber("+48123456789").email("abc@gmail.com").build();
 
         when(traineesService.create(any(Trainee.class))).thenReturn(trainee);
 
         mockMvc.perform(post("/api/trainees")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"Jan\",\"surname\":\"Kowalski\",\"email\":\"abc@gmail.com\"}"))
+                .content("{\"name\":\"Jan\",\"surname\":\"Kowalski\",\"email\":\"abc@gmail.com\",\"phoneNumber\":\"+48123456789\"}"))
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.name").value("Jan"))
             .andExpect(jsonPath("$.surname").value("Kowalski"))
@@ -56,7 +56,7 @@ class TraineesControllerTest {
 
     @Test
     void testGetTrainees() throws Exception {
-        Trainee trainee = Trainee.builder().id(UUID.randomUUID()).name("Jan").surname("Kowalski").email("abc@gmail.com").build();
+        Trainee trainee = Trainee.builder().id(UUID.randomUUID()).name("Jan").surname("Kowalski").phoneNumber("+48123456789").email("abc@gmail.com").build();
 
         when(traineesService.getTrainees()).thenReturn(List.of(trainee));
 
@@ -70,7 +70,7 @@ class TraineesControllerTest {
     @Test
     void testGetTraineeById() throws Exception {
         UUID id = UUID.randomUUID();
-        Trainee trainee = Trainee.builder().id(id).name("Jan").surname("Kowalski").email("abc@gmail.com").build();
+        Trainee trainee = Trainee.builder().id(id).name("Jan").surname("Kowalski").email("abc@gmail.com").phoneNumber("+48123456789").build();
 
         when(traineesService.findById(id)).thenReturn(trainee);
 
@@ -94,13 +94,13 @@ class TraineesControllerTest {
     @Test
     void testUpdateTraineeById() throws Exception {
         UUID id = UUID.randomUUID();
-        Trainee trainee = Trainee.builder().id(id).name("Jan").surname("Kowalski").email("abc@gmail.com").build();
+        Trainee trainee = Trainee.builder().id(id).name("Jan").surname("Kowalski").email("abc@gmail.com").phoneNumber("+48123456789").build();
 
         when(traineesService.updateById(any(UUID.class), any(Trainee.class))).thenReturn(trainee);
 
         mockMvc.perform(put("/api/trainees/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"Jan\",\"surname\":\"Kowalski\",\"email\":\"abc@gmail.com\"}"))
+                .content("{\"name\":\"Jan\",\"surname\":\"Kowalski\",\"email\":\"abc@gmail.com\",\"phoneNumber\":\"+48123456789\"}"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.name").value("Jan"))
             .andExpect(jsonPath("$.surname").value("Kowalski"))

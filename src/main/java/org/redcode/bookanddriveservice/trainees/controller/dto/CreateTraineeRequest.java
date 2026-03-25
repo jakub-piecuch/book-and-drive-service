@@ -10,6 +10,8 @@ public record CreateTraineeRequest(
     @NotNull
     String surname,
     @NotNull
-    String email
+    String email,
+    @NotNull
+    String phoneNumber
 ) {
 }

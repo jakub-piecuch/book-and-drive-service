@@ -41,13 +41,13 @@ class InstructorsControllerTest {
 
     @Test
     void testCreateInstructor() throws Exception {
-        Instructor instructor = Instructor.builder().id(UUID.randomUUID()).name("Jan").surname("Kowalski").email("abc@gmail.com").build();
+        Instructor instructor = Instructor.builder().id(UUID.randomUUID()).name("Jan").surname("Kowalski").email("abc@gmail.com").phoneNumber("+48987654321").build();
 
         when(instructorsService.create(any(Instructor.class))).thenReturn(instructor);
 
         mockMvc.perform(post("/api/instructors")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"Jan\",\"surname\":\"Kowalski\",\"email\":\"abc@gmail.com\"}"))
+                .content("{\"name\":\"Jan\",\"surname\":\"Kowalski\",\"email\":\"abc@gmail.com\",\"phoneNumber\":\"+48987654321\"}"))
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.name").value("Jan"))
             .andExpect(jsonPath("$.surname").value("Kowalski"))
@@ -56,7 +56,7 @@ class InstructorsControllerTest {
 
     @Test
     void testGetInstructors() throws Exception {
-        Instructor instructor = Instructor.builder().id(UUID.randomUUID()).name("Jan").surname("Kowalski").email("abc@gmail.com").build();
+        Instructor instructor = Instructor.builder().id(UUID.randomUUID()).name("Jan").surname("Kowalski").email("abc@gmail.com").phoneNumber("+48987654321").build();
 
         when(instructorsService.getInstructors()).thenReturn(List.of(instructor));
 
@@ -70,7 +70,7 @@ class InstructorsControllerTest {
     @Test
     void testGetInstructorById() throws Exception {
         UUID id = UUID.randomUUID();
-        Instructor instructor = Instructor.builder().id(id).name("Jan").surname("Kowalski").email("abc@gmail.com").build();
+        Instructor instructor = Instructor.builder().id(id).name("Jan").surname("Kowalski").email("abc@gmail.com").phoneNumber("+48987654321").build();
 
         when(instructorsService.findById(id)).thenReturn(instructor);
 
@@ -94,13 +94,13 @@ class InstructorsControllerTest {
     @Test
     void testUpdateInstructorById() throws Exception {
         UUID id = UUID.randomUUID();
-        Instructor instructor = Instructor.builder().id(id).name("Jan").surname("Kowalski").email("abc@gmail.com").build();
+        Instructor instructor = Instructor.builder().id(id).name("Jan").surname("Kowalski").email("abc@gmail.com").phoneNumber("+48987654321").build();
 
         when(instructorsService.updateById(any(UUID.class), any(Instructor.class))).thenReturn(instructor);
 
         mockMvc.perform(put("/api/instructors/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"Jan\",\"surname\":\"Kowalski\",\"email\":\"abc@gmail.com\"}"))
+                .content("{\"name\":\"Jan\",\"surname\":\"Kowalski\",\"email\":\"abc@gmail.com\",\"phoneNumber\":\"+48987654321\"}"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.name").value("Jan"))
             .andExpect(jsonPath("$.surname").value("Kowalski"))

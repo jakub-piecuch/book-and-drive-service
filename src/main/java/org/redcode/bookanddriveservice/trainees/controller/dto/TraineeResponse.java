@@ -10,7 +10,8 @@ public record TraineeResponse(
     String tenantId,
     String name,
     String surname,
-    String email
+    String email,
+    String phoneNumber
 ) {
     public static TraineeResponse from(Trainee trainee) {
         return TraineeResponse.builder()
@@ -19,6 +20,7 @@ public record TraineeResponse(
             .name(trainee.getName())
             .surname(trainee.getSurname())
             .email(trainee.getEmail())
+            .phoneNumber(trainee.getPhoneNumber())
             .build();
     }
 }

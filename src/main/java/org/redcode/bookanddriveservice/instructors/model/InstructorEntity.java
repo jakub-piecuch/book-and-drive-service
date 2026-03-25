@@ -33,6 +33,8 @@ public class InstructorEntity {
     private String surname;
     @Column(nullable = false)
     private String email;
+    @Column(nullable = false)
+    private String phoneNumber;
 
     public static InstructorEntity from(Instructor instructor) {
         return InstructorEntity.builder()
@@ -40,6 +42,7 @@ public class InstructorEntity {
             .name(instructor.getName())
             .surname(instructor.getSurname())
             .email(instructor.getEmail())
+            .phoneNumber(instructor.getPhoneNumber())
             .build();
     }
 
@@ -49,6 +52,7 @@ public class InstructorEntity {
             .name(instructor.getName())
             .surname(instructor.getSurname())
             .email(instructor.getEmail())
+            .phoneNumber(instructor.getPhoneNumber())
             .build();
     }
 }

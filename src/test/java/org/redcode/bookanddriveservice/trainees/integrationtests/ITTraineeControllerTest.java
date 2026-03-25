@@ -73,6 +73,7 @@ class ITTraineeControllerTest {
             .name("John")
             .surname("Doe")
             .email("john.doe@example.com")
+            .phoneNumber("+48123456789")
             .build();
 
         TraineeResponse response = restTemplate.postForEntity("/api/trainees", request, TraineeResponse.class).getBody();
@@ -104,6 +105,7 @@ class ITTraineeControllerTest {
             .name("UpdatedJohn")
             .surname("UpdatedDoe")
             .email("updated.john.doe@example.com")
+            .phoneNumber("+48000000000")
             .build();
 
         ResponseEntity<TraineeResponse> response = restTemplate.exchange(
@@ -135,6 +137,7 @@ class ITTraineeControllerTest {
             .name("John")
             .surname("Doe")
             .email("john.doe@example.com")
+            .phoneNumber("+48123456789")
             .build();
 
         return restTemplate.postForEntity("/api/trainees", request, TraineeResponse.class).getBody();
@@ -148,6 +151,7 @@ class ITTraineeControllerTest {
             .name("NonExistentFirstName")
             .surname("NonExistentLastName")
             .email("nonexistent@example.com")
+            .phoneNumber("+48000000000")
             .build();
 
         ResponseEntity<String> response = restTemplate.exchange(
