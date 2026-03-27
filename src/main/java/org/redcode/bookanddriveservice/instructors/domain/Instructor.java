@@ -17,6 +17,7 @@ public class Instructor {
     private String name;
     private String surname;
     private String email;
+    private String phoneNumber;
 
     public static Instructor from(InstructorEntity instructor) {
         return Instructor.builder()
@@ -25,6 +26,7 @@ public class Instructor {
             .name(instructor.getName())
             .surname(instructor.getSurname())
             .email(instructor.getEmail())
+            .phoneNumber(instructor.getPhoneNumber())
             .build();
     }
 
@@ -33,6 +35,7 @@ public class Instructor {
             .name(instructor.name())
             .surname(instructor.surname())
             .email(instructor.email())
+            .phoneNumber(instructor.phoneNumber())
             .build();
     }
 
@@ -41,6 +44,7 @@ public class Instructor {
             .name(instructor.name())
             .surname(instructor.surname())
             .email(instructor.email())
+            .phoneNumber(instructor.phoneNumber())
             .build();
     }
 }

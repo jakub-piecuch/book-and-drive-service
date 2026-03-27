@@ -19,6 +19,7 @@ public class Trainee {
     private String name;
     private String surname;
     private String email;
+    private String phoneNumber;
 
     public static Trainee from(TraineeEntity trainee) {
         return Trainee.builder()
@@ -27,6 +28,7 @@ public class Trainee {
             .name(trainee.getName())
             .surname(trainee.getSurname())
             .email(trainee.getEmail())
+            .phoneNumber(trainee.getPhoneNumber())
             .build();
     }
 
@@ -35,6 +37,7 @@ public class Trainee {
             .name(request.name())
             .surname(request.surname())
             .email(request.email())
+            .phoneNumber(request.phoneNumber())
             .build();
     }
 
@@ -44,6 +47,7 @@ public class Trainee {
             .name(request.name())
             .surname(request.surname())
             .email(request.email())
+            .phoneNumber(request.phoneNumber())
             .build();
     }
 }

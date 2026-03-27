@@ -12,6 +12,7 @@ public class InstructorsDataGenerator {
     private static final String NAME = "Jan";
     private static final String SURNAME = "Kowalski";
     private static final String EMAIL = "kowalski@gmail.com";
+    private static final String PHONE_NUMBER = "+48987654321";
 
     public static Instructor generateInstructor() {
         return Instructor.builder()
@@ -19,6 +20,7 @@ public class InstructorsDataGenerator {
             .name(NAME)
             .surname(SURNAME)
             .email(EMAIL)
+            .phoneNumber(PHONE_NUMBER)
             .build();
     }
 
@@ -28,6 +30,7 @@ public class InstructorsDataGenerator {
             .name(NAME)
             .surname(SURNAME)
             .email(EMAIL)
+            .phoneNumber(PHONE_NUMBER)
             .build();
     }
 }

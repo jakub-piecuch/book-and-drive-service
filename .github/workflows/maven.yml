@@ -9,8 +9,10 @@ on:
 
   push:
     branches:
-      - main           # Trigger on direct pushes to the main branch
-      - 'feat/PLAT*'   # Trigger on pushes to branches that start with "feat/PLAT"
+      - main
+      - 'feat/**'
+      - 'fix/**'
+      - 'chore/**'
 
 jobs:
   build:

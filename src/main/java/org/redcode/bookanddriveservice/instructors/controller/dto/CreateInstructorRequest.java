@@ -6,7 +6,8 @@ import lombok.Builder;
 public record CreateInstructorRequest(
     String name,
     String surname,
-    String email
+    String email,
+    String phoneNumber
 ) {
 
 }
