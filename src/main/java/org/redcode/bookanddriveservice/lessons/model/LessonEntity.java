@@ -65,11 +65,12 @@ public class LessonEntity {
     }
 
     public static LessonEntity update(LessonEntity existing, Lesson lesson) {
-        existing.setStartTime(lesson.getStartTime());
-        existing.setEndTime(lesson.getEndTime());
-        existing.setInstructor(InstructorEntity.from(lesson.getInstructor()));
-        existing.setTrainee(TraineeEntity.from(lesson.getTrainee()));
-        existing.setCar(lesson.getCar() != null ? CarEntity.from(lesson.getCar()) : null);
-        return existing;
+        return existing.toBuilder()
+            .startTime(lesson.getStartTime())
+            .endTime(lesson.getEndTime())
+            .instructor(InstructorEntity.from(lesson.getInstructor()))
+            .trainee(TraineeEntity.from(lesson.getTrainee()))
+            .car(lesson.getCar() != null ? CarEntity.from(lesson.getCar()) : null)
+            .build();
     }
 }
