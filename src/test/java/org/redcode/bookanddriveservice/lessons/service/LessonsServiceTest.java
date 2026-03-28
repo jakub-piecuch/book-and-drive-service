@@ -5,6 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.contains;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.redcode.bookanddriveservice.lessons.utils.LessonsDataGenerator.generateInvalidLesson;
@@ -29,6 +33,7 @@ import org.redcode.bookanddriveservice.lessons.model.LessonEntity;
 import org.redcode.bookanddriveservice.lessons.repository.LessonCustomSearchRepository;
 import org.redcode.bookanddriveservice.lessons.repository.LessonSearchCriteria;
 import org.redcode.bookanddriveservice.lessons.repository.LessonsRepository;
+import org.redcode.bookanddriveservice.notifications.sms.SmsService;
 import org.redcode.bookanddriveservice.page.PageResponse;
 import org.springframework.data.domain.PageRequest;
 
@@ -42,6 +47,9 @@ class LessonsServiceTest {
 
     @Mock
     private org.redcode.bookanddriveservice.instructors.service.InstructorsService instructorsService;
+
+    @Mock
+    private SmsService smsService;
 
     @InjectMocks
     private LessonsService lessonsService;
@@ -63,6 +71,25 @@ class LessonsServiceTest {
         Lesson result = lessonsService.create(lesson);
 
         // Assert
+        assertNotNull(result);
+        assertEquals(lesson.getStartTime(), result.getStartTime());
+        assertEquals(lesson.getEndTime(), result.getEndTime());
+        verify(smsService, times(1)).send(anyString(), anyString());
+    }
+
+    @Test
+    void testCreate_shouldReturnLessonEvenWhenSmsFails() {
+        // Arrange
+        Lesson lesson = generateLesson();
+        LessonEntity lessonEntity = LessonEntity.from(lesson);
+
+        when(lessonsRepository.save(any(LessonEntity.class))).thenReturn(lessonEntity);
+        doThrow(new RuntimeException("Twilio unavailable")).when(smsService).send(anyString(), anyString());
+
+        // Act
+        Lesson result = lessonsService.create(lesson);
+
+        // Assert — lesson is returned despite SMS failure
         assertNotNull(result);
         assertEquals(lesson.getStartTime(), result.getStartTime());
         assertEquals(lesson.getEndTime(), result.getEndTime());

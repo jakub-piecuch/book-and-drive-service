@@ -3,6 +3,7 @@ package org.redcode.bookanddriveservice.lessons.service;
 import static org.redcode.bookanddriveservice.exceptions.ResourceNotFoundException.RESOURECE_NOT_FOUND;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.redcode.bookanddriveservice.lessons.model.LessonEntity;
 import org.redcode.bookanddriveservice.lessons.repository.LessonCustomSearchRepository;
 import org.redcode.bookanddriveservice.lessons.repository.LessonSearchCriteria;
 import org.redcode.bookanddriveservice.lessons.repository.LessonsRepository;
+import org.redcode.bookanddriveservice.notifications.sms.SmsService;
 import org.redcode.bookanddriveservice.page.PageResponse;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -25,10 +27,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LessonsService {
 
+    private static final DateTimeFormatter SMS_DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy 'at' HH:mm");
     public static final String DUPLICATE_KEY_VALUE_VIOLATES_UNIQUE_CONSTRAINT = "duplicate key value violates unique constraint";
+
     private final LessonsRepository lessonsRepository;
     private final LessonCustomSearchRepository lessonCustomRepository;
     private final InstructorsService instructorsService;
+    private final SmsService smsService;
 
     public Lesson create(Lesson lesson) {
         LocalDateTime startTime = lesson.getStartTime();
@@ -48,7 +53,23 @@ public class LessonsService {
             }
         }
 
-        return Lesson.from(lessonEntity);
+        Lesson saved = Lesson.from(lessonEntity);
+        sendLessonConfirmationSms(saved);
+        return saved;
+    }
+
+    private void sendLessonConfirmationSms(Lesson lesson) {
+        String phoneNumber = lesson.getTrainee().getPhoneNumber();
+        String traineeName = lesson.getTrainee().getName();
+        String formattedDate = lesson.getStartTime().format(SMS_DATE_FORMATTER);
+        String message = String.format(
+            "Hi %s, your driving lesson is scheduled for %s. See you there!", traineeName, formattedDate
+        );
+        try {
+            smsService.send(phoneNumber, message);
+        } catch (Exception e) {
+            log.error("Failed to send SMS notification to trainee {} ({}): {}", traineeName, phoneNumber, e.getMessage(), e);
+        }
     }
 
     public PageResponse<Lesson> findByCriteria(LessonSearchCriteria criteria, PageRequest pageRequest) {

@@ -23,8 +23,10 @@ import org.redcode.bookanddriveservice.lessons.repository.LessonsRepository;
 import org.redcode.bookanddriveservice.page.PageResponse;
 import org.redcode.bookanddriveservice.trainees.model.TraineeEntity;
 import org.redcode.bookanddriveservice.trainees.repository.TraineesRepository;
+import org.redcode.bookanddriveservice.notifications.sms.SmsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.core.ParameterizedTypeReference;
@@ -49,6 +51,9 @@ class ITLessonsControllerTest {
     @Container
     @ServiceConnection
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16");
+
+    @MockBean
+    SmsService smsService;
 
     @Autowired
     TestRestTemplate restTemplate;
