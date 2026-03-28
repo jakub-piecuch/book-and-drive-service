@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import org.redcode.bookanddriveservice.cars.domain.Car;
 import org.redcode.bookanddriveservice.instructors.domain.Instructor;
 import org.redcode.bookanddriveservice.lessons.controller.dto.CreateLessonRequest;
+import org.redcode.bookanddriveservice.lessons.controller.dto.UpdateLessonRequest;
 import org.redcode.bookanddriveservice.lessons.model.LessonEntity;
 import org.redcode.bookanddriveservice.trainees.domain.Trainee;
 
@@ -37,6 +38,20 @@ public class Lesson {
             .trainee(Trainee.from(lesson.getTrainee()))
             .car(Car.from(lesson.getCar()))
             .build();
+    }
+
+    public static Lesson from(UpdateLessonRequest request) {
+        LessonBuilder lessonBuilder = Lesson.builder()
+            .startTime(request.startTime())
+            .endTime(request.endTime())
+            .instructor(Instructor.builder().id(request.instructorId()).build())
+            .trainee(Trainee.builder().id(request.traineeId()).build());
+
+        if (nonNull(request.carId())) {
+            lessonBuilder.car(Car.builder().id(request.carId()).build());
+        }
+
+        return lessonBuilder.build();
     }
 
     public static Lesson from(CreateLessonRequest lesson) {

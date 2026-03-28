@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redcode.bookanddriveservice.lessons.controller.dto.CreateLessonRequest;
 import org.redcode.bookanddriveservice.lessons.controller.dto.LessonResponse;
+import org.redcode.bookanddriveservice.lessons.controller.dto.UpdateLessonRequest;
 import org.redcode.bookanddriveservice.lessons.domain.Lesson;
 import org.redcode.bookanddriveservice.lessons.repository.LessonSearchCriteria;
 import org.redcode.bookanddriveservice.lessons.service.LessonsService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -61,6 +63,14 @@ public class LessonsController {
         PageResponse<Lesson> result = lessonsService.findByCriteria(criteria, pageRequest);
 
         return ResponseEntity.ok(PageResponse.from(result, LessonResponse::from));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<LessonResponse> updateLessonById(@PathVariable UUID id, @Valid @RequestBody UpdateLessonRequest request) {
+        log.info("Updating Lesson by id: {}", id);
+        Lesson lesson = Lesson.from(request);
+        LessonResponse response = LessonResponse.from(lessonsService.updateById(id, lesson));
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")

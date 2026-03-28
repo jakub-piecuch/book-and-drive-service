@@ -63,4 +63,13 @@ public class LessonEntity {
             .car(CarEntity.from(lesson.getCar()))
             .build();
     }
+
+    public static LessonEntity update(LessonEntity existing, Lesson lesson) {
+        existing.setStartTime(lesson.getStartTime());
+        existing.setEndTime(lesson.getEndTime());
+        existing.setInstructor(InstructorEntity.from(lesson.getInstructor()));
+        existing.setTrainee(TraineeEntity.from(lesson.getTrainee()));
+        existing.setCar(lesson.getCar() != null ? CarEntity.from(lesson.getCar()) : null);
+        return existing;
+    }
 }
