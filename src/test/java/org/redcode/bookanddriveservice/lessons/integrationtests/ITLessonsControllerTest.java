@@ -17,6 +17,7 @@ import org.redcode.bookanddriveservice.instructors.model.InstructorEntity;
 import org.redcode.bookanddriveservice.instructors.repository.InstructorsRepository;
 import org.redcode.bookanddriveservice.lessons.controller.dto.CreateLessonRequest;
 import org.redcode.bookanddriveservice.lessons.controller.dto.LessonResponse;
+import org.redcode.bookanddriveservice.lessons.controller.dto.UpdateLessonRequest;
 import org.redcode.bookanddriveservice.lessons.model.LessonEntity;
 import org.redcode.bookanddriveservice.lessons.repository.LessonsRepository;
 import org.redcode.bookanddriveservice.page.PageResponse;
@@ -27,7 +28,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
@@ -107,6 +110,71 @@ class ITLessonsControllerTest {
         Assertions.assertTrue(response.getStatusCode().is2xxSuccessful());
         assertNotNull(response.getBody());
         Assertions.assertFalse(response.getBody().getContent().isEmpty()); // Assuming the result list isn't empty
+    }
+
+    @Test
+    void shouldUpdateLesson() {
+        LessonEntity existing = insertLessonInDb();
+
+        UpdateLessonRequest request = UpdateLessonRequest.builder()
+            .startTime(LocalDateTime.of(2025, 12, 12, 14, 0))
+            .endTime(LocalDateTime.of(2025, 12, 12, 15, 0))
+            .instructorId(existing.getInstructor().getId())
+            .traineeId(existing.getTrainee().getId())
+            .build();
+
+        ResponseEntity<LessonResponse> response = restTemplate.exchange(
+            "/api/lessons/" + existing.getId(),
+            HttpMethod.PUT,
+            new HttpEntity<>(request),
+            LessonResponse.class
+        );
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().startTime()).isEqualTo(LocalDateTime.of(2025, 12, 12, 14, 0));
+        assertThat(response.getBody().endTime()).isEqualTo(LocalDateTime.of(2025, 12, 12, 15, 0));
+        assertThat(response.getBody().instructorId()).isEqualTo(existing.getInstructor().getId());
+        assertThat(response.getBody().traineeId()).isEqualTo(existing.getTrainee().getId());
+    }
+
+    @Test
+    void shouldUpdateLesson_throwNotFoundException() {
+        java.util.UUID nonExistentId = java.util.UUID.randomUUID();
+        InstructorEntity instructor = createInstructorEntity();
+        TraineeEntity trainee = createTraineeEntity();
+
+        UpdateLessonRequest request = UpdateLessonRequest.builder()
+            .startTime(LocalDateTime.of(2025, 12, 12, 14, 0))
+            .endTime(LocalDateTime.of(2025, 12, 12, 15, 0))
+            .instructorId(instructor.getId())
+            .traineeId(trainee.getId())
+            .build();
+
+        ResponseEntity<String> response = restTemplate.exchange(
+            "/api/lessons/" + nonExistentId,
+            HttpMethod.PUT,
+            new HttpEntity<>(request),
+            String.class
+        );
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertThat(response.getBody()).contains("Resource not found.");
+    }
+
+    @Test
+    void shouldDeleteLesson_throwNotFoundException() {
+        java.util.UUID nonExistentId = java.util.UUID.randomUUID();
+
+        ResponseEntity<String> response = restTemplate.exchange(
+            "/api/lessons/" + nonExistentId,
+            HttpMethod.DELETE,
+            null,
+            String.class
+        );
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertThat(response.getBody()).contains("Resource not found.");
     }
 
     private LessonEntity insertLessonInDb() {

@@ -70,6 +70,20 @@ public class LessonsService {
         ));
     }
 
+    public Lesson updateById(UUID id, Lesson lesson) {
+        if (lesson.getStartTime().isAfter(lesson.getEndTime())) {
+            log.error("Start time: {}, cannot be greater than end time: {}.", lesson.getStartTime(), lesson.getEndTime());
+            throw ValidationException.of("Start time cannot be greater than end time", "invalid_dates");
+        }
+
+        return lessonsRepository.findById(id)
+            .map(entity -> {
+                LessonEntity updated = LessonEntity.update(entity, lesson);
+                return Lesson.from(lessonsRepository.save(updated));
+            })
+            .orElseThrow(() -> ResourceNotFoundException.of(RESOURECE_NOT_FOUND));
+    }
+
     public void deleteById(UUID id) {
         lessonsRepository.findById(id)
             .ifPresentOrElse(

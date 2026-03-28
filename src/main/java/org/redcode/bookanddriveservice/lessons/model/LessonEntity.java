@@ -24,10 +24,10 @@ import org.redcode.bookanddriveservice.trainees.model.TraineeEntity;
 
 @Data
 @Entity
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "lesson")
+@Builder(toBuilder = true)
 public class LessonEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -61,6 +61,16 @@ public class LessonEntity {
             .instructor(InstructorEntity.from(lesson.getInstructor()))
             .trainee(TraineeEntity.from(lesson.getTrainee()))
             .car(CarEntity.from(lesson.getCar()))
+            .build();
+    }
+
+    public static LessonEntity update(LessonEntity existing, Lesson lesson) {
+        return existing.toBuilder()
+            .startTime(lesson.getStartTime())
+            .endTime(lesson.getEndTime())
+            .instructor(InstructorEntity.from(lesson.getInstructor()))
+            .trainee(TraineeEntity.from(lesson.getTrainee()))
+            .car(lesson.getCar() != null ? CarEntity.from(lesson.getCar()) : null)
             .build();
     }
 }

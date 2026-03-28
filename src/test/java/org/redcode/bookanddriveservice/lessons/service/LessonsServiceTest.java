@@ -11,6 +11,8 @@ import static org.redcode.bookanddriveservice.lessons.utils.LessonsDataGenerator
 import static org.redcode.bookanddriveservice.lessons.utils.LessonsDataGenerator.generateLesson;
 import static org.redcode.bookanddriveservice.lessons.utils.LessonsDataGenerator.generateLessonEntity;
 import static org.redcode.bookanddriveservice.lessons.utils.LessonsDataGenerator.generateLessonSearchCriteria;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.never;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +39,9 @@ class LessonsServiceTest {
 
     @Mock
     private LessonCustomSearchRepository lessonCustomRepository;
+
+    @Mock
+    private org.redcode.bookanddriveservice.instructors.service.InstructorsService instructorsService;
 
     @InjectMocks
     private LessonsService lessonsService;
@@ -102,6 +107,62 @@ class LessonsServiceTest {
         assertEquals(10, result.getPage().getLimit());
         assertEquals(totalElements, result.getPage().getTotalElements());
         assertEquals(1, result.getPage().getTotalPages());
+    }
+
+    @Test
+    void testUpdateById_shouldUpdateLessonSuccessfully() {
+        // Arrange
+        UUID lessonId = UUID.randomUUID();
+        Lesson updatedLesson = generateLesson();
+        LessonEntity existingEntity = generateLessonEntity();
+        existingEntity.setId(lessonId);
+        LessonEntity savedEntity = generateLessonEntity();
+        savedEntity.setId(lessonId);
+        savedEntity.setStartTime(updatedLesson.getStartTime());
+        savedEntity.setEndTime(updatedLesson.getEndTime());
+
+        when(lessonsRepository.findById(lessonId)).thenReturn(Optional.of(existingEntity));
+        when(lessonsRepository.save(any(LessonEntity.class))).thenReturn(savedEntity);
+
+        // Act
+        Lesson result = lessonsService.updateById(lessonId, updatedLesson);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(updatedLesson.getStartTime(), result.getStartTime());
+        assertEquals(updatedLesson.getEndTime(), result.getEndTime());
+        verify(lessonsRepository).save(any(LessonEntity.class));
+    }
+
+    @Test
+    void testUpdateById_shouldThrowResourceNotFoundExceptionWhenIdDoesNotExist() {
+        // Arrange
+        UUID lessonId = UUID.randomUUID();
+        Lesson lesson = generateLesson();
+
+        when(lessonsRepository.findById(lessonId)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class,
+            () -> lessonsService.updateById(lessonId, lesson)
+        );
+        assertEquals("Resource not found.", exception.getMessage());
+        verify(lessonsRepository, never()).save(any());
+    }
+
+    @Test
+    void testUpdateById_shouldThrowValidationExceptionWhenStartTimeIsAfterEndTime() {
+        // Arrange
+        UUID lessonId = UUID.randomUUID();
+        Lesson invalidLesson = generateInvalidLesson();
+
+        // Act & Assert
+        ValidationException exception = assertThrows(ValidationException.class,
+            () -> lessonsService.updateById(lessonId, invalidLesson)
+        );
+        assertEquals("invalid_dates", exception.getReason());
+        assertEquals("Start time cannot be greater than end time", exception.getMessage());
+        verify(lessonsRepository, never()).findById(any());
     }
 
     @Test

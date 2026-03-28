@@ -8,6 +8,7 @@ import static org.redcode.bookanddriveservice.trainees.utils.TraineesDataGenerat
 import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.experimental.UtilityClass;
+import org.redcode.bookanddriveservice.lessons.controller.dto.UpdateLessonRequest;
 import org.redcode.bookanddriveservice.lessons.domain.Lesson;
 import org.redcode.bookanddriveservice.lessons.model.LessonEntity;
 import org.redcode.bookanddriveservice.lessons.repository.LessonSearchCriteria;
@@ -49,6 +50,15 @@ public class LessonsDataGenerator {
             .endTime(END_TIME)
             .instructor(generateInstructorEntity())
             .trainee(generateTraineeEntity())
+            .build();
+    }
+
+    public static UpdateLessonRequest generateUpdateLessonRequest(UUID instructorId, UUID traineeId) {
+        return UpdateLessonRequest.builder()
+            .startTime(LocalDateTime.of(2023, 10, 1, 14, 0))
+            .endTime(LocalDateTime.of(2023, 10, 1, 16, 0))
+            .instructorId(instructorId)
+            .traineeId(traineeId)
             .build();
     }
 

@@ -3,10 +3,12 @@ package org.redcode.bookanddriveservice.lessons.controller;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -123,6 +125,42 @@ class LessonsControllerTest {
                 .param("endDateTime", endDateTime.toString()))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.content", hasSize(0)));
+    }
+
+    @Test
+    void testUpdateLessonById() throws Exception {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        UUID instructorId = UUID.randomUUID();
+        UUID traineeId = UUID.randomUUID();
+        LocalDateTime newStart = LocalDateTime.of(LocalDate.of(2025, 1, 12), LocalTime.of(14, 0));
+        LocalDateTime newEnd = LocalDateTime.of(LocalDate.of(2025, 1, 12), LocalTime.of(15, 0));
+
+        Lesson updatedLesson = Lesson.builder()
+            .id(id)
+            .startTime(newStart)
+            .endTime(newEnd)
+            .instructor(org.redcode.bookanddriveservice.instructors.domain.Instructor.builder().id(instructorId).build())
+            .trainee(org.redcode.bookanddriveservice.trainees.domain.Trainee.builder().id(traineeId).build())
+            .build();
+
+        String content = String.format(
+            "{\"startTime\":\"2025-01-12T14:00\",\"endTime\":\"2025-01-12T15:00\",\"instructorId\":\"%s\",\"traineeId\":\"%s\"}",
+            instructorId, traineeId
+        );
+
+        when(lessonsService.updateById(eq(id), any(Lesson.class))).thenReturn(updatedLesson);
+
+        // Act & Assert
+        mockMvc.perform(put("/api/lessons/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.id").value(id.toString()))
+            .andExpect(jsonPath("$.startTime").value(newStart.toString()))
+            .andExpect(jsonPath("$.endTime").value(newEnd.toString()))
+            .andExpect(jsonPath("$.instructorId").value(instructorId.toString()))
+            .andExpect(jsonPath("$.traineeId").value(traineeId.toString()));
     }
 
     @Test
