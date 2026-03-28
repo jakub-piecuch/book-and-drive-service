@@ -24,10 +24,10 @@ import org.redcode.bookanddriveservice.trainees.model.TraineeEntity;
 
 @Data
 @Entity
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "lesson")
+@Builder(toBuilder = true)
 public class LessonEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
