@@ -16,6 +16,7 @@ import org.redcode.bookanddriveservice.lessons.model.LessonEntity;
 import org.redcode.bookanddriveservice.lessons.repository.LessonCustomSearchRepository;
 import org.redcode.bookanddriveservice.lessons.repository.LessonSearchCriteria;
 import org.redcode.bookanddriveservice.lessons.repository.LessonsRepository;
+import org.redcode.bookanddriveservice.notifications.service.LessonNotificationService;
 import org.redcode.bookanddriveservice.page.PageResponse;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,7 @@ public class LessonsService {
     private final LessonsRepository lessonsRepository;
     private final LessonCustomSearchRepository lessonCustomRepository;
     private final InstructorsService instructorsService;
+    private final LessonNotificationService lessonNotificationService;
 
     public Lesson create(Lesson lesson) {
         LocalDateTime startTime = lesson.getStartTime();
@@ -48,7 +50,14 @@ public class LessonsService {
             }
         }
 
-        return Lesson.from(lessonEntity);
+        Lesson created = Lesson.from(lessonEntity);
+        try {
+            lessonNotificationService.sendLessonScheduledEmail(created, created.getTrainee());
+        } catch (Exception e) {
+            log.error("Failed to send lesson scheduled email [lessonId={}, traineeId={}]: {}",
+                created.getId(), created.getTrainee().getId(), e.getMessage());
+        }
+        return created;
     }
 
     public PageResponse<Lesson> findByCriteria(LessonSearchCriteria criteria, PageRequest pageRequest) {

@@ -29,6 +29,7 @@ import org.redcode.bookanddriveservice.lessons.model.LessonEntity;
 import org.redcode.bookanddriveservice.lessons.repository.LessonCustomSearchRepository;
 import org.redcode.bookanddriveservice.lessons.repository.LessonSearchCriteria;
 import org.redcode.bookanddriveservice.lessons.repository.LessonsRepository;
+import org.redcode.bookanddriveservice.notifications.service.LessonNotificationService;
 import org.redcode.bookanddriveservice.page.PageResponse;
 import org.springframework.data.domain.PageRequest;
 
@@ -42,6 +43,9 @@ class LessonsServiceTest {
 
     @Mock
     private org.redcode.bookanddriveservice.instructors.service.InstructorsService instructorsService;
+
+    @Mock
+    private LessonNotificationService lessonNotificationService;
 
     @InjectMocks
     private LessonsService lessonsService;
